@@ -332,7 +332,7 @@ import AdminWrapper from "@/AdminWrapper/AdminWrapper";
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 
-import { Calendar, X, DollarSign } from "lucide-react";
+import { Calendar, X, DollarSign, Download } from "lucide-react";
 import MyTable from "../AdminPages/MyTable";
 
 const CashReports = () => {
@@ -719,6 +719,11 @@ const CashReports = () => {
                                 )}
                             </div>
                         </div>
+                        {/* Left side - Download */}
+                            <button className='flex gap-4'>
+                                <Download className="w-6 h-6 text-gray-600 hover:text-gray-800" />
+                                <span>PDF</span>
+                            </button>
                     </div>
                 </div>
 

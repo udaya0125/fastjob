@@ -11,6 +11,7 @@ import {
     DollarSign,
     TrendingUp,
     Calendar as CalendarIcon,
+    Download,
 } from "lucide-react";
 import MyTable from "../AdminPages/MyTable";
 
@@ -253,7 +254,7 @@ const BankIncome = () => {
                 },
             },
             {
-                Header:"Percentage",
+                Header: "Percentage",
                 accessor: "percent",
                 Cell: ({ value }) => {
                     return value ? `${parseFloat(value).toFixed(2)}%` : "-";
@@ -442,6 +443,11 @@ const BankIncome = () => {
                                 )}
                             </div>
                         </div>
+                        {/* Left side - Download */}
+                        <button className="flex gap-4">
+                            <Download className="w-6 h-6 text-gray-600 hover:text-gray-800" />
+                            <span>PDF</span>
+                        </button>
                     </div>
                 </div>
 

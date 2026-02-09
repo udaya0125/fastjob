@@ -224,7 +224,7 @@ const CustomerDetails = () => {
                     {/* Add New Button */}
                     <button
                         onClick={handleAddNew}
-                        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors font-xl"
+                        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
                     >
                         Create
                     </button>
