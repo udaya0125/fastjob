@@ -3,7 +3,7 @@ import React from "react";
 const AdminFooter = ({ isCollapsed = false }) => {
     return (
         <footer 
-            className={`border-t border-gray-200 transition-all duration-300 ${
+            className={`border-t border-blue-200 bg-[#eaebef] transition-all duration-300 ${
                 isCollapsed ? "lg:ml-16" : "lg:ml-64"
             }`}
         >

@@ -1,21 +1,23 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import { Edit2, Trash2, Plus, Edit, Eye, X, Search } from "lucide-react";
 import AdminWrapper from "@/AdminWrapper/AdminWrapper";
 import axios from "axios";
 import AddCustomerForm from "@/AddFormComponents/AddCustomerForm";
 import MyTable from "./MyTable";
+import { MainContextData } from '@/Context/MainContext';
 
 const CustomerDetails = () => {
     const [allCustomers, setAllCustomers] = useState([]);
     const [filteredCustomers, setFilteredCustomers] = useState([]);
-    const [reloadTrigger, setReloadTrigger] = useState(false);
-    const [editingCustomer, setEditingCustomer] = useState(null);
-    const [showForm, setShowForm] = useState(false);
+    // const [reloadCustomerTrigger, setReloadCustomerTrigger] = useState(false);
+    // const [editingCustomer, setEditingCustomer] = useState(null);
+    // const [showForm, setShowForm] = useState(false);
     const [loading, setLoading] = useState(true);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchLoading, setSearchLoading] = useState(false);
+    const {showForm,setShowForm, editingCustomer, setEditingCustomer, setReloadCustomerTrigger, reloadCustomerTrigger, handleAddNew } = useContext(MainContextData);
 
     // For fetching the customer data
     useEffect(() => {
@@ -34,7 +36,9 @@ const CustomerDetails = () => {
         };
 
         fetchCustomer();
-    }, [reloadTrigger]);
+    }, [reloadCustomerTrigger]);
+
+
 
     // Search functionality
     useEffect(() => {
@@ -45,15 +49,17 @@ const CustomerDetails = () => {
             }
 
             setSearchLoading(true);
-            
+
             const query = searchQuery.toLowerCase().trim();
-            const filtered = allCustomers.filter(customer => {
+            const filtered = allCustomers.filter((customer) => {
                 const name = customer.name?.toLowerCase() || "";
                 const experience = customer.experience?.toLowerCase() || "";
-                const permanentAddress = customer.permanent_address?.toLowerCase() || "";
-                const temporaryAddress = customer.temporary_address?.toLowerCase() || "";
+                const permanentAddress =
+                    customer.permanent_address?.toLowerCase() || "";
+                const temporaryAddress =
+                    customer.temporary_address?.toLowerCase() || "";
                 const referenceBy = customer.reference_by?.toLowerCase() || "";
-                
+
                 return (
                     name.includes(query) ||
                     experience.includes(query) ||
@@ -62,7 +68,7 @@ const CustomerDetails = () => {
                     referenceBy.includes(query)
                 );
             });
-            
+
             setFilteredCustomers(filtered);
             setSearchLoading(false);
         };
@@ -80,7 +86,7 @@ const CustomerDetails = () => {
         if (confirm("Are you sure you want to delete this customer?")) {
             try {
                 await axios.delete(route("ourcustomers.destroy", { id: id }));
-                setReloadTrigger((prev) => !prev);
+                setReloadCustomerTrigger((prev) => !prev);
             } catch (error) {
                 console.log(error);
                 alert("Failed to delete customer");
@@ -99,10 +105,10 @@ const CustomerDetails = () => {
         setShowDetailsPopup(true);
     };
 
-    const handleAddNew = () => {
-        setEditingCustomer(null);
-        setShowForm(true);
-    };
+    // const handleAddNew = () => {
+    //     setEditingCustomer(null);
+    //     setShowForm(true);
+    // };
 
     const handleFormClose = () => {
         setShowForm(false);
@@ -115,7 +121,7 @@ const CustomerDetails = () => {
     };
 
     const handleSuccess = () => {
-        setReloadTrigger((prev) => !prev);
+        setReloadCustomerTrigger((prev) => !prev);
         handleFormClose();
     };
 
@@ -123,6 +129,10 @@ const CustomerDetails = () => {
     const handleClearSearch = () => {
         setSearchQuery("");
     };
+    console.log(showForm)
+    console.log(editingCustomer)
+    console.log(reloadCustomerTrigger)
+    console.log(handleAddNew)
 
     // Define table columns
     const columns = useMemo(
@@ -182,21 +192,21 @@ const CustomerDetails = () => {
                     <div className="flex gap-2">
                         <button
                             onClick={() => handleViewDetails(row.original)}
-                            className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                            className="p-2 text-green-600 hover:bg-green-50 rounded-full transition-colors"
                             title="View Details"
                         >
                             <Eye size={18} />
                         </button>
                         <button
                             onClick={() => handleEdit(row.original)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
                             title="Edit"
                         >
                             <Edit size={18} />
                         </button>
                         <button
                             onClick={() => handleDelete(row.original.id)}
-                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
                             title="Delete"
                         >
                             <Trash2 size={18} />
@@ -207,12 +217,14 @@ const CustomerDetails = () => {
                 disableSortBy: true,
             },
         ],
-        []
+        [],
     );
+
+    
 
     return (
         <AdminWrapper>
-            <div className=" ">
+            <div className="py-4 ">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-4">
                     <div>
@@ -224,7 +236,7 @@ const CustomerDetails = () => {
                     {/* Add New Button */}
                     <button
                         onClick={handleAddNew}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                        className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
                     >
                         Create
                     </button>
@@ -249,13 +261,23 @@ const CustomerDetails = () => {
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
                                 title="Clear search"
                             >
-                                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                <svg
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
                                 </svg>
                             </button>
                         )}
                     </div>
-                    
+
                     {/* Search Info */}
                     {/* <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
                         <span>
@@ -290,7 +312,10 @@ const CustomerDetails = () => {
                 {!loading && filteredCustomers.length > 0 && (
                     <div className="mt-6">
                         <div className="bg-white rounded-xl shadow-sm boverflow-hidden">
-                            <MyTable columns={columns} data={filteredCustomers} />
+                            <MyTable
+                                columns={columns}
+                                data={filteredCustomers}
+                            />
                         </div>
                     </div>
                 )}
@@ -298,7 +323,10 @@ const CustomerDetails = () => {
                 {/* No Search Results State */}
                 {!loading && searchQuery && filteredCustomers.length === 0 && (
                     <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
-                        <Search size={48} className="mx-auto text-gray-300 mb-4" />
+                        <Search
+                            size={48}
+                            className="mx-auto text-gray-300 mb-4"
+                        />
                         <p className="text-gray-400 text-lg mb-2">
                             No customers found for "{searchQuery}"
                         </p>
@@ -312,13 +340,13 @@ const CustomerDetails = () => {
                             >
                                 Clear search
                             </button>
-                            <span className="text-gray-300">|</span>
+                            {/* <span className="text-gray-300">|</span>
                             <button
                                 onClick={handleAddNew}
                                 className="text-blue-600 hover:text-blue-700 font-medium"
                             >
                                 Add new customer
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 )}
@@ -331,7 +359,7 @@ const CustomerDetails = () => {
                         </p>
                         <button
                             onClick={handleAddNew}
-                            className="mt-4 flex items-center gap-2 mx-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors font-medium"
+                            className="mt-4 flex items-center gap-2 mx-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full transition-colors font-medium"
                         >
                             <Plus size={20} />
                             Add Your First Customer
@@ -341,15 +369,11 @@ const CustomerDetails = () => {
 
                 {/* Popup Form Overlay */}
                 {showForm && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                            <AddCustomerForm
-                                editingCustomer={editingCustomer}
-                                onClose={handleFormClose}
-                                onSuccess={handleSuccess}
-                            />
-                        </div>
-                    </div>
+                    <AddCustomerForm
+                        editingCustomer={editingCustomer}
+                        onClose={handleFormClose}
+                        onSuccess={handleSuccess}
+                    />
                 )}
 
                 {/* Details Popup Overlay - Card Style */}
@@ -363,7 +387,7 @@ const CustomerDetails = () => {
                                 </h2>
                                 <button
                                     onClick={handleDetailsClose}
-                                    className="text-gray-500 hover:text-gray-700 transition-colors"
+                                    className="text-gray-500 hover:text-gray-700 transition-colors rounded-full"
                                 >
                                     <X size={24} />
                                 </button>
@@ -373,42 +397,58 @@ const CustomerDetails = () => {
                             <div className="p-6 space-y-4">
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Permanent Address :</span>{" "}
-                                        {selectedCustomer.permanent_address || "N/A"}
+                                        <span className="font-semibold">
+                                            Permanent Address :
+                                        </span>{" "}
+                                        {selectedCustomer.permanent_address ||
+                                            "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Temporary Address :</span>{" "}
-                                        {selectedCustomer.temporary_address || "N/A"}
+                                        <span className="font-semibold">
+                                            Temporary Address :
+                                        </span>{" "}
+                                        {selectedCustomer.temporary_address ||
+                                            "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Contact Number :</span>{" "}
-                                        {selectedCustomer.contact_number || "N/A"}
+                                        <span className="font-semibold">
+                                            Contact Number :
+                                        </span>{" "}
+                                        {selectedCustomer.contact_number ||
+                                            "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Experience :</span>{" "}
+                                        <span className="font-semibold">
+                                            Experience :
+                                        </span>{" "}
                                         {selectedCustomer.experience || "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Interested In :</span>{" "}
-                                        {selectedCustomer.interested_in || "N/A"}
+                                        <span className="font-semibold">
+                                            Interested In :
+                                        </span>{" "}
+                                        {selectedCustomer.interested_in ||
+                                            "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Reference by :</span>{" "}
+                                        <span className="font-semibold">
+                                            Reference by :
+                                        </span>{" "}
                                         {selectedCustomer.reference_by || "N/A"}
                                     </p>
                                 </div>
@@ -418,7 +458,7 @@ const CustomerDetails = () => {
                             <div className="p-4 border-t flex justify-end">
                                 <button
                                     onClick={handleDetailsClose}
-                                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors"
+                                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full transition-colors"
                                 >
                                     Close
                                 </button>

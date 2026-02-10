@@ -198,7 +198,7 @@ const ActivityLogs = () => {
     return (
         <>
             <AdminWrapper>
-                <div className="">
+                <div className="py-4">
                     <div className="mb-8 flex justify-between items-center">
                         <div>
                         <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -214,7 +214,7 @@ const ActivityLogs = () => {
                             <Download className="w-6 h-6 text-gray-600 hover:text-gray-800" />
                         </button>
                     </div>
-                </div>
+               
 
                 {/* Loading State */}
                 {loading && (
@@ -274,7 +274,9 @@ const ActivityLogs = () => {
                         )}
                     </>
                 )}
+                 </div>
             </AdminWrapper>
+
         </>
     );
 };

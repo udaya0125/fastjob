@@ -1,22 +1,24 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import axios from "axios";
 import { Edit2, Trash2, Plus, Edit, Search, Eye, X } from "lucide-react";
-import { MdDelete, MdEdit } from 'react-icons/md';
+import { MdDelete, MdEdit } from "react-icons/md";
 import AdminWrapper from "@/AdminWrapper/AdminWrapper";
 import AddEmployerForm from "@/AddFormComponents/AddEmployerForm";
 import MyTable from "./MyTable"; // Adjust the import path as needed
+import { MainContextData } from '@/Context/MainContext';
 
 const EmployerDetails = () => {
     const [allEmployers, setAllEmployers] = useState([]);
     const [filteredEmployers, setFilteredEmployers] = useState([]);
-    const [reloadTrigger, setReloadTrigger] = useState(false);
-    const [editingEmployer, setEditingEmployer] = useState(null);
-    const [showAddForm, setShowAddForm] = useState(false);
+    // const [reloadEmployerTrigger, setReloadEmployerTrigger] = useState(false);
+    // const [editingEmployer, setEditingEmployer] = useState(null);
+    // const [showAddForm, setShowAddForm] = useState(false);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchLoading, setSearchLoading] = useState(false);
     const [selectedEmployer, setSelectedEmployer] = useState(null);
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+    const {showAddForm,setShowAddForm, editingEmployer , setEditingEmployer ,reloadEmployerTrigger ,setReloadEmployerTrigger , handleAddNewEmployee}= useContext(MainContextData);
 
     // For fetching the employer data
     useEffect(() => {
@@ -34,7 +36,7 @@ const EmployerDetails = () => {
         };
 
         fetchEmployer();
-    }, [reloadTrigger]);
+    }, [reloadEmployerTrigger]);
 
     // Search functionality
     useEffect(() => {
@@ -45,20 +47,20 @@ const EmployerDetails = () => {
             }
 
             setSearchLoading(true);
-            
+
             const query = searchQuery.toLowerCase().trim();
-            const filtered = allEmployers.filter(employer => {
+            const filtered = allEmployers.filter((employer) => {
                 const name = employer.name?.toLowerCase() || "";
                 const post = employer.post?.toLowerCase() || "";
                 const location = employer.location?.toLowerCase() || "";
-                
+
                 return (
                     name.includes(query) ||
                     post.includes(query) ||
                     location.includes(query)
                 );
             });
-            
+
             setFilteredEmployers(filtered);
             setSearchLoading(false);
         };
@@ -79,7 +81,7 @@ const EmployerDetails = () => {
 
         try {
             await axios.delete(route("ouremployers.destroy", { id: id }));
-            setReloadTrigger((prev) => !prev);
+            setReloadEmployerTrigger((prev) => !prev);
         } catch (error) {
             console.log("Delete error:", error);
             alert("Failed to delete employer");
@@ -104,6 +106,11 @@ const EmployerDetails = () => {
         setSelectedEmployer(null);
     };
 
+    // const handleAddNewEmployee = () => {
+    //     setEditingEmployer(null);
+    //     setShowAddForm(true);
+    // };
+
     // Handle update after the edit
     const handleUpdate = async (formData, id) => {
         try {
@@ -117,7 +124,7 @@ const EmployerDetails = () => {
                     },
                 },
             );
-            setReloadTrigger((prev) => !prev);
+            setReloadEmployerTrigger((prev) => !prev);
             return response.data;
         } catch (error) {
             console.log("Error updating employer", error);
@@ -164,7 +171,7 @@ const EmployerDetails = () => {
                         {/* View Details Button */}
                         <button
                             onClick={() => handleViewDetails(row.original)}
-                            className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                            className="p-2 text-green-600 hover:bg-green-50 rounded-full transition-colors"
                             title="View details"
                         >
                             <Eye size={16} />
@@ -173,7 +180,7 @@ const EmployerDetails = () => {
                         {/* Edit Button */}
                         <button
                             onClick={() => handleEdit(row.original)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
                             title="Edit this record"
                         >
                             <Edit size={16} />
@@ -182,7 +189,7 @@ const EmployerDetails = () => {
                         {/* Delete Button */}
                         <button
                             onClick={() => handleDelete(row.original.id)}
-                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
                             title="Delete this record"
                         >
                             <Trash2 size={16} />
@@ -206,7 +213,7 @@ const EmployerDetails = () => {
 
     return (
         <AdminWrapper>
-            <div className="max-w-7xl mx-auto ">
+            <div className="py-4 ">
                 {/* Header with Add Button */}
                 <div className="mb-8 flex justify-between items-center">
                     <div>
@@ -215,11 +222,8 @@ const EmployerDetails = () => {
                         </h1>
                     </div>
                     <button
-                        onClick={() => {
-                            setEditingEmployer(null);
-                            setShowAddForm(true);
-                        }}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                        onClick={handleAddNewEmployee}
+                        className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
                     >
                         Create
                     </button>
@@ -244,13 +248,23 @@ const EmployerDetails = () => {
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
                                 title="Clear search"
                             >
-                                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                <svg
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
                                 </svg>
                             </button>
                         )}
                     </div>
-                    
+
                     {/* Search Info */}
                     {/* <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
                         <span>
@@ -273,20 +287,16 @@ const EmployerDetails = () => {
 
                 {/* Add/Edit Form Modal */}
                 {showAddForm && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                            <AddEmployerForm
-                                editingEmployer={editingEmployer}
-                                setEditingEmployer={setEditingEmployer}
-                                reloadTrigger={reloadTrigger}
-                                setReloadTrigger={setReloadTrigger}
-                                onClose={() => {
-                                    setShowAddForm(false);
-                                    setEditingEmployer(null);
-                                }}
-                            />
-                        </div>
-                    </div>
+                    <AddEmployerForm
+                        editingEmployer={editingEmployer}
+                        setEditingEmployer={setEditingEmployer}
+                        reloadEmployerTrigger={reloadEmployerTrigger}
+                        setReloadEmployerTrigger={setReloadEmployerTrigger}
+                        onClose={() => {
+                            setShowAddForm(false);
+                            setEditingEmployer(null);
+                        }}
+                    />
                 )}
 
                 {/* Details Popup Overlay - Card Style */}
@@ -300,7 +310,7 @@ const EmployerDetails = () => {
                                 </h2>
                                 <button
                                     onClick={handleDetailsClose}
-                                    className="text-gray-500 hover:text-gray-700 transition-colors"
+                                    className="text-gray-500 hover:text-gray-700 transition-colors rounded-full"
                                 >
                                     <X size={24} />
                                 </button>
@@ -308,45 +318,57 @@ const EmployerDetails = () => {
 
                             {/* Content - Simple text layout */}
                             <div className="p-6 space-y-4">
-                            
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Post :</span>{" "}
+                                        <span className="font-semibold">
+                                            Post :
+                                        </span>{" "}
                                         {selectedEmployer.post || "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Location :</span>{" "}
+                                        <span className="font-semibold">
+                                            Location :
+                                        </span>{" "}
                                         {selectedEmployer.location || "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Salary :</span>{" "}
+                                        <span className="font-semibold">
+                                            Salary :
+                                        </span>{" "}
                                         {selectedEmployer.salary || "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Time :</span>{" "}
+                                        <span className="font-semibold">
+                                            Time :
+                                        </span>{" "}
                                         {selectedEmployer.time || "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Contact Number :</span>{" "}
-                                        {selectedEmployer.contact_number || "N/A"}
+                                        <span className="font-semibold">
+                                            Contact Number :
+                                        </span>{" "}
+                                        {selectedEmployer.contact_number ||
+                                            "N/A"}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold">Experience :</span>{" "}
+                                        <span className="font-semibold">
+                                            Experience :
+                                        </span>{" "}
                                         {selectedEmployer.experience || "N/A"}
                                     </p>
                                 </div>
@@ -356,7 +378,7 @@ const EmployerDetails = () => {
                             <div className="p-4 border-t flex justify-end">
                                 <button
                                     onClick={handleDetailsClose}
-                                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md transition-colors"
+                                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full transition-colors"
                                 >
                                     Close
                                 </button>
@@ -383,18 +405,22 @@ const EmployerDetails = () => {
                 {/* No Search Results State */}
                 {!loading && searchQuery && filteredEmployers.length === 0 && (
                     <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
-                        <Search size={48} className="mx-auto text-gray-300 mb-4" />
+                        <Search
+                            size={48}
+                            className="mx-auto text-gray-300 mb-4"
+                        />
                         <p className="text-gray-400 text-lg mb-2">
                             No employers found for "{searchQuery}"
                         </p>
                         <p className="text-gray-500 mb-4">
-                            Try searching with different keywords or check your spelling
+                            Try searching with different keywords or check your
+                            spelling
                         </p>
                         <button
                             onClick={handleClearSearch}
                             className="mt-2 text-indigo-600 hover:text-indigo-700 font-medium"
                         >
-                            Clear search and show all employers
+                            Clear search
                         </button>
                     </div>
                 )}
@@ -407,7 +433,7 @@ const EmployerDetails = () => {
                         </p>
                         <button
                             onClick={() => setShowAddForm(true)}
-                            className="mt-4 flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg transition-colors mx-auto"
+                            className="mt-4 flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full transition-colors mx-auto"
                         >
                             <Plus size={20} />
                             Add Your First Employer

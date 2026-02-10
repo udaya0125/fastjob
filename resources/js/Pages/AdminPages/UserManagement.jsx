@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import AddUserForm from "@/AddFormComponents/AddUserForm";
 import MyTable from "./MyTable";
+import { Edit, Trash2 } from "lucide-react";
 
 const UserManagement = () => {
     const [allUser, setAllUser] = useState([]);
@@ -84,6 +85,12 @@ const UserManagement = () => {
     const columns = useMemo(
         () => [
             {
+                Header: "SN",
+                accessor: (row, i) => i + 1,
+                id: "rowIndex",
+                width: 60,
+            },
+            {
                 Header: "Image",
                 accessor: "image",
                 Cell: ({ row }) => (
@@ -125,15 +132,17 @@ const UserManagement = () => {
                     <div className="flex gap-2">
                         <button
                             onClick={() => handleEdit(row.original)}
-                            className="bg-blue-500 text-white px-3 py-1.5 rounded text-sm hover:bg-blue-600 transition"
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                            title="Edit user"
                         >
-                            Edit
+                            <Edit size={16} />
                         </button>
                         <button
                             onClick={() => handleDelete(row.original.id)}
-                            className="bg-red-500 text-white px-3 py-1.5 rounded text-sm hover:bg-red-600 transition"
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                            title="Delete user"
                         >
-                            Delete
+                            <Trash2 size={16} />
                         </button>
                     </div>
                 ),
@@ -145,7 +154,7 @@ const UserManagement = () => {
 
     return (
         <AdminWrapper>
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto py-4">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold">User Management</h1>
                     <button
@@ -153,7 +162,7 @@ const UserManagement = () => {
                             setEditingUser(null);
                             setShowFormModal(true);
                         }}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                        className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
                     >
                          Create
                     </button>

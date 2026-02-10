@@ -558,6 +558,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import axios from 'axios';
+import { X } from 'lucide-react';
 
 const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
     const [submitting, setSubmitting] = useState(false);
@@ -750,7 +751,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             onClick={handleCancel}
                             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                         >
-                            ✕
+                            <X size={20} />
                         </button>
                     </div>
 
@@ -1063,7 +1064,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             <button
                                 type="button"
                                 onClick={handleCancel}
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-full hover:bg-gray-50 transition-colors"
                                 disabled={submitting}
                             >
                                 Cancel
@@ -1071,7 +1072,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             <button
                                 type="submit"
                                 disabled={submitting}
-                                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2 disabled:opacity-50"
+                                className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors flex items-center gap-2 disabled:opacity-50"
                             >
                                 {submitting ? (
                                     <>

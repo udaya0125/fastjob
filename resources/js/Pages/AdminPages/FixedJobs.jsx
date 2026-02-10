@@ -633,7 +633,7 @@ const FixedJobs = () => {
     return (
         <>
             <AdminWrapper>
-                <div>
+                <div className="py-4">
                     <div className="flex justify-between items-center mb-6">
                         <div>
                             <h1 className="text-2xl font-bold text-gray-800">
@@ -705,7 +705,7 @@ const FixedJobs = () => {
                                 </p>
                                 <button
                                     onClick={handleClearSearch}
-                                    className="text-blue-600 hover:text-blue-700 font-medium"
+                                    className="text-blue-600 hover:text-blue-700 font-medium "
                                 >
                                     Clear search
                                 </button>
