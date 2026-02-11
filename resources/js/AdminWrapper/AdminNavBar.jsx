@@ -101,7 +101,7 @@ const AdminNavBar = ({ onMenuToggle }) => {
                                                 }}
                                             />
                                         ) : (
-                                            <UserCircle className="w-6 h-6 text-gray-600" />
+                                            <img src="/images/placeholder.png" alt="Placeholder" className="w-full h-full rounded-full object-cover" />
                                         )}
                                     </div>
                                     <div className="hidden sm:block text-left">

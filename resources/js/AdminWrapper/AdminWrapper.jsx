@@ -3,6 +3,7 @@ import AdminNavBar from "./AdminNavBar";
 import AdminSideBar from "./AdminSideBar";
 import { usePage } from "@inertiajs/react";
 import AdminFooter from "./AdminFooter";
+import ToptoBottom from "./ToptoBottom";
 
 const AdminWrapper = ({ children }) => {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -46,6 +47,7 @@ const AdminWrapper = ({ children }) => {
                     {children}
                 </div>
             </main>
+            <ToptoBottom/>
             
             <AdminFooter isCollapsed={isCollapsed} />
         </div>

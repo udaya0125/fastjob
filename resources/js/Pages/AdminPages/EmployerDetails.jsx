@@ -6,6 +6,7 @@ import AdminWrapper from "@/AdminWrapper/AdminWrapper";
 import AddEmployerForm from "@/AddFormComponents/AddEmployerForm";
 import MyTable from "./MyTable"; // Adjust the import path as needed
 import { MainContextData } from '@/Context/MainContext';
+import { Head } from "@inertiajs/react";
 
 const EmployerDetails = () => {
     const [allEmployers, setAllEmployers] = useState([]);
@@ -213,6 +214,7 @@ const EmployerDetails = () => {
 
     return (
         <AdminWrapper>
+            <Head title="Employer Details" />
             <div className="py-4 ">
                 {/* Header with Add Button */}
                 <div className="mb-8 flex justify-between items-center">

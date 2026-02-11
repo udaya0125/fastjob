@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employer;
+use App\Models\UserLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EmployerController extends Controller
 {
@@ -52,6 +54,15 @@ class EmployerController extends Controller
 
         $employer = Employer::create($validated);
 
+        $adminName = Auth::user()->name ?? 'System';
+
+        // Log the creation action
+        UserLog::create([
+            'name' => $adminName,
+            'ip_address' => $request->ip(),
+            'title' => $adminName . ' created the employer ' . $employer->name,
+        ]);
+
         return response()->json([
             'status' => true,
             'message' => 'Employer created successfully',
@@ -65,6 +76,8 @@ class EmployerController extends Controller
     public function update(Request $request, $id)
     {
         $employer = Employer::findOrFail($id);
+        $oldName = $employer->name;
+        $adminName = Auth::user()->name ?? 'System';
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -77,6 +90,13 @@ class EmployerController extends Controller
         ]);
 
         $employer->update($validated);
+
+        // Log the update action
+        UserLog::create([
+            'name' => $adminName,
+            'ip_address' => $request->ip(),
+            'title' => $adminName . ' updated the employer ' . $oldName,
+        ]);
 
         return response()->json([
             'status' => true,
@@ -91,7 +111,17 @@ class EmployerController extends Controller
     public function destroy($id)
     {
         $employer = Employer::findOrFail($id);
+        $employerName = $employer->name;
+        $adminName = Auth::user()->name ?? 'System';
+
         $employer->delete();
+
+        // Log the deletion action
+        UserLog::create([
+            'name' => $adminName,
+            'ip_address' => request()->ip(),
+            'title' => $adminName . ' deleted the employer ' . $employerName,
+        ]);
 
         return response()->json([
             'status' => true,

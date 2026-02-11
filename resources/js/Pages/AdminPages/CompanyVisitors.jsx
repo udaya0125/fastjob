@@ -432,6 +432,7 @@ import AdminWrapper from '@/AdminWrapper/AdminWrapper';
 import { Edit, Search, Trash2, X } from 'lucide-react';
 import EditCompanyVisitorForm from '@/EditFormComponents/EditCompanyVisitorForm';
 import AddCompanyVisitorForm from '@/AddFormComponents/AddCompanyVisitorForm';
+import { Head } from '@inertiajs/react';
 
 const CompanyVisitors = () => {
     const [allVisitor, setAllVisitor] = useState([]);
@@ -696,6 +697,7 @@ const CompanyVisitors = () => {
 
     return (
         <AdminWrapper>
+            <Head title="Company Visitors" />
             <div className='py-4'>
                 <div className="flex justify-between items-center mb-6">
                     <div>

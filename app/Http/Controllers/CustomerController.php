@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\UserLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -46,6 +48,15 @@ class CustomerController extends Controller
 
         $customer = Customer::create($validated);
 
+        $adminName = Auth::user()->name ?? 'System';
+
+        // Log the creation action
+        UserLog::create([
+            'name' => $adminName,
+            'ip_address' => $request->ip(),
+            'title' => $adminName . ' created the customer ' . $customer->name,
+        ]);
+
         return response()->json([
             'message' => 'Customer created successfully',
             'data' => $customer,
@@ -58,6 +69,8 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $customer = Customer::findOrFail($id);
+        $oldName = $customer->name;
+        $adminName = Auth::user()->name ?? 'System';
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -71,6 +84,13 @@ class CustomerController extends Controller
 
         $customer->update($validated);
 
+        // Log the update action
+        UserLog::create([
+            'name' => $adminName,
+            'ip_address' => $request->ip(),
+            'title' => $adminName . ' updated the customer ' . $oldName,
+        ]);
+
         return response()->json([
             'message' => 'Customer updated successfully',
             'data' => $customer,
@@ -83,7 +103,17 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
+        $customerName = $customer->name;
+        $adminName = Auth::user()->name ?? 'System';
+
         $customer->delete();
+
+        // Log the deletion action
+        UserLog::create([
+            'name' => $adminName,
+            'ip_address' => request()->ip(),
+            'title' => $adminName . ' deleted the customer ' . $customerName,
+        ]);
 
         return response()->json([
             'message' => 'Customer deleted successfully',

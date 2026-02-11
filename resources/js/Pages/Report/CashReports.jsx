@@ -83,7 +83,7 @@
 //     // Get date range text for display
 //     const getDateRangeText = () => {
 //         if (!startDate && !endDate) return "";
-        
+
 //         if (startDate && endDate) {
 //             return `${formatDateDisplay(startDate)} - ${formatDateDisplay(endDate)}`;
 //         } else if (startDate) {
@@ -327,13 +327,15 @@
 
 // export default CashReports;
 
-
 import AdminWrapper from "@/AdminWrapper/AdminWrapper";
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 import { Calendar, X, DollarSign, Download } from "lucide-react";
 import MyTable from "../AdminPages/MyTable";
+import { Head } from "@inertiajs/react";
 
 const CashReports = () => {
     const [cashVisitors, setCashVisitors] = useState([]);
@@ -518,6 +520,80 @@ const CashReports = () => {
         }, 0);
     }, [filteredVisitors, isFiltered, startDate, endDate]);
 
+    // Handle PDF download for cash income report
+    const handleDownloadPDF = () => {
+        const doc = new jsPDF({
+            orientation: "landscape",
+            unit: "mm",
+            format: "a4",
+        });
+
+        // Title
+        doc.setFontSize(16);
+        doc.text("Cash Income Report", 14, 15);
+
+        // Meta info
+        doc.setFontSize(10);
+        doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 22);
+
+        if (isFiltered && startDate && endDate) {
+            doc.text(`Filtered Range: ${startDate} → ${endDate}`, 14, 28);
+        }
+
+        // Summary
+        doc.text(
+            `Total Cash: ${
+                isFiltered
+                    ? calculateFilteredTotal.toFixed(2)
+                    : totalCash.toFixed(2)
+            }`,
+            200,
+            22,
+        );
+
+        // Table
+        autoTable(doc, {
+            startY: isFiltered ? 34 : 30,
+            head: [
+                [
+                    "SN",
+                    "Name",
+                    "Company",
+                    "Salary",
+                    "Percent",
+                    "Income",
+                    "Payment Method",
+                    "Date",
+                    "Citizenship",
+                ],
+            ],
+            body: filteredVisitors.map((v, index) => [
+                index + 1,
+                v.name || "-",
+                v.companyname || "-",
+                v.salary ? parseFloat(v.salary).toFixed(2) : "-",
+                v.percent ? `${parseFloat(v.percent).toFixed(2)}%` : "-",
+                v.income ? parseFloat(v.income).toFixed(2) : "-",
+                v.payment_method || "Cash",
+                v.date ? new Date(v.date).toLocaleDateString("en-US") : "-",
+                v.citizenship || "-",
+            ]),
+            styles: {
+                fontSize: 8,
+                cellPadding: 3,
+            },
+            headStyles: {
+                fillColor: [31, 41, 55],
+                textColor: 255,
+            },
+            alternateRowStyles: {
+                fillColor: [245, 247, 250],
+            },
+        });
+
+        doc.save("cash-income-report.pdf");
+    };
+
     // Define columns for cash reports table
     const cashColumns = useMemo(
         () => [
@@ -587,6 +663,7 @@ const CashReports = () => {
 
     return (
         <AdminWrapper>
+            <Head title="Cash Report" />
             <div className="py-4">
                 <div className="flex justify-between items-center mb-6">
                     <div>
@@ -606,7 +683,9 @@ const CashReports = () => {
                             </p>
                         </div>
                         <p className="text-2xl font-bold text-gray-900 mt-2">
-                            {isFiltered ? calculateFilteredTotal.toFixed(2) : totalCash.toFixed(2)}
+                            {isFiltered
+                                ? calculateFilteredTotal.toFixed(2)
+                                : totalCash.toFixed(2)}
                         </p>
                     </div>
 
@@ -657,12 +736,17 @@ const CashReports = () => {
                                 {/* Start Date */}
                                 <div className="relative flex-1 sm:flex-none">
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <Calendar size={16} className="text-gray-400" />
+                                        <Calendar
+                                            size={16}
+                                            className="text-gray-400"
+                                        />
                                     </div>
                                     <input
                                         type="date"
                                         value={startDate}
-                                        onChange={(e) => setStartDate(e.target.value)}
+                                        onChange={(e) =>
+                                            setStartDate(e.target.value)
+                                        }
                                         className="w-full sm:w-40 pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500"
                                         max={endDate || undefined}
                                         placeholder="Start date"
@@ -671,18 +755,25 @@ const CashReports = () => {
 
                                 {/* Separator */}
                                 <div className="hidden sm:flex items-center">
-                                    <span className="text-gray-400 mx-2">to</span>
+                                    <span className="text-gray-400 mx-2">
+                                        to
+                                    </span>
                                 </div>
 
                                 {/* End Date */}
                                 <div className="relative flex-1 sm:flex-none">
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <Calendar size={16} className="text-gray-400" />
+                                        <Calendar
+                                            size={16}
+                                            className="text-gray-400"
+                                        />
                                     </div>
                                     <input
                                         type="date"
                                         value={endDate}
-                                        onChange={(e) => setEndDate(e.target.value)}
+                                        onChange={(e) =>
+                                            setEndDate(e.target.value)
+                                        }
                                         className="w-full sm:w-40 pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500"
                                         min={startDate || undefined}
                                         placeholder="End date"
@@ -703,7 +794,9 @@ const CashReports = () => {
                                     }`}
                                 >
                                     <Calendar size={16} />
-                                    <span className="hidden sm:inline">Filter</span>
+                                    <span className="hidden sm:inline">
+                                        Filter
+                                    </span>
                                 </button>
 
                                 {/* Clear Button - Only show when filters are active */}
@@ -714,16 +807,23 @@ const CashReports = () => {
                                         title="Clear filters"
                                     >
                                         <X size={16} />
-                                        <span className="hidden sm:inline">Clear</span>
+                                        <span className="hidden sm:inline">
+                                            Clear
+                                        </span>
                                     </button>
                                 )}
                             </div>
                         </div>
                         {/* Left side - Download */}
-                            <button className='flex gap-4'>
-                                <Download className="w-6 h-6 text-gray-600 hover:text-gray-800" />
-                                <span>PDF</span>
-                            </button>
+                        <button
+                            onClick={handleDownloadPDF}
+                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+                        >
+                            <Download className="w-5 h-5 text-gray-600" />
+                            <span className="text-sm font-medium text-gray-700">
+                                PDF
+                            </span>
+                        </button>
                     </div>
                 </div>
 
@@ -756,7 +856,8 @@ const CashReports = () => {
                             className="mx-auto text-gray-300 mb-4"
                         />
                         <p className="text-gray-400 text-lg mb-2">
-                            No cash transactions found for the selected date range
+                            No cash transactions found for the selected date
+                            range
                         </p>
                         <button
                             onClick={handleClearFilters}
@@ -778,7 +879,8 @@ const CashReports = () => {
                             No cash transactions found
                         </p>
                         <p className="text-gray-500 mt-2">
-                            Transactions with "Cash" payment method will appear here
+                            Transactions with "Cash" payment method will appear
+                            here
                         </p>
                     </div>
                 )}

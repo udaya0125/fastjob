@@ -1,9 +1,9 @@
 // import React, { useState } from "react";
 // import { Link, usePage } from "@inertiajs/react";
-// import { 
-//     FiMenu, 
-//     FiX, 
-//     FiChevronDown, 
+// import {
+//     FiMenu,
+//     FiX,
+//     FiChevronDown,
 //     FiChevronRight,
 //     FiUsers,
 //     FiUser,
@@ -440,7 +440,7 @@
 //                                 {isReportsOpen && (
 //                                     <div className="ml-8 space-y-1">
 //                                         {reportItems.map((item) => {
-                                           
+
 //                                             const active = isActive(item.href);
 //                                             return (
 //                                                 <Link
@@ -484,7 +484,7 @@
 //                                         Reports
 //                                     </div>
 //                                 </button>
-                                
+
 //                                 {/* Collapsed dropdown - appears on hover */}
 //                                 {isReportsOpen && (
 //                                     <div className="absolute left-full top-0 ml-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50 min-w-[180px]">
@@ -525,13 +525,12 @@
 
 // export default AdminSideBar;
 
-
 import React, { useState } from "react";
 import { Link, usePage } from "@inertiajs/react";
-import { 
-    FiMenu, 
-    FiX, 
-    FiChevronDown, 
+import {
+    FiMenu,
+    FiX,
+    FiChevronDown,
     FiChevronRight,
     FiUsers,
     FiUser,
@@ -550,6 +549,10 @@ const AdminSideBar = ({
     const currentPath = url.split("/")[1];
     const [isReportsOpen, setIsReportsOpen] = useState(false);
     const [isReportsHovered, setIsReportsHovered] = useState(false);
+    const user = usePage().props.auth.user;
+
+    const isAdmin = user?.roles === "Admin";
+    const isUser = user?.roles === "User";
 
     const isActive = (href) => {
         const path = href.replace("/", "");
@@ -562,9 +565,11 @@ const AdminSideBar = ({
             "pending-reports",
             "cash-reports",
             "bank-income",
-            "user-logs"
+            "user-logs",
         ];
-        return reportRoutes.some(route => currentPath === route || url.includes(route));
+        return reportRoutes.some(
+            (route) => currentPath === route || url.includes(route),
+        );
     };
 
     const toggleReports = () => {
@@ -597,11 +602,12 @@ const AdminSideBar = ({
     ];
 
     // Common link styles
-    const linkBaseClasses = "flex items-center rounded-lg transition-colors duration-200 group relative";
+    const linkBaseClasses =
+        "flex items-center rounded-lg transition-colors duration-200 group relative";
     const linkCollapsedClasses = isCollapsed ? "p-3 justify-center" : "p-3";
-    const linkActiveClasses = (href) => 
-        isActive(href) 
-            ? "bg-blue-50 text-blue-700 font-semibold border-l-4 border-blue-600" 
+    const linkActiveClasses = (href) =>
+        isActive(href)
+            ? "bg-blue-50 text-blue-700 font-semibold border-l-4 border-blue-600"
             : "text-gray-600 hover:bg-blue-50 hover:text-blue-700";
 
     // Icon style function
@@ -661,7 +667,11 @@ const AdminSideBar = ({
                             <button
                                 onClick={onToggleCollapse}
                                 className="hidden lg:flex p-1.5 hover:bg-blue-50 rounded-lg transition-colors duration-200"
-                                title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                                title={
+                                    isCollapsed
+                                        ? "Expand sidebar"
+                                        : "Collapse sidebar"
+                                }
                             >
                                 <FiMenu className="w-4 h-4 text-gray-600" />
                             </button>
@@ -677,7 +687,9 @@ const AdminSideBar = ({
                     </div>
 
                     {/* Menu Items - Flex container for proper alignment */}
-                    <div className={`flex-1 overflow-y-auto ${isCollapsed ? "px-2" : "px-3"} py-2`}>
+                    <div
+                        className={`flex-1 overflow-y-auto ${isCollapsed ? "px-2" : "px-3"} py-2`}
+                    >
                         <div className="space-y-1">
                             {/* Dashboard Link */}
                             <Link
@@ -686,7 +698,9 @@ const AdminSideBar = ({
                                     ${linkBaseClasses} ${linkCollapsedClasses} ${linkActiveClasses("/dashboard")}
                                 `}
                             >
-                                <LayoutDashboard className={iconClasses("/dashboard")} />
+                                <LayoutDashboard
+                                    className={iconClasses("/dashboard")}
+                                />
                                 {!isCollapsed && (
                                     <span className="ml-3 font-medium whitespace-nowrap">
                                         Dashboard
@@ -704,21 +718,29 @@ const AdminSideBar = ({
                                 </div>
                             )}
 
-                            {/* User Management Link */}
-                            <Link
-                                href="/users"
-                                className={`
+                            {isAdmin && (
+                                <>
+                                    {/* User Management Link */}
+                                    <Link
+                                        href="/users"
+                                        className={`
                                     ${linkBaseClasses} ${linkCollapsedClasses} ${linkActiveClasses("/users")}
                                 `}
-                            >
-                                <FiUsers className={iconClasses("/users")} />
-                                {!isCollapsed && (
-                                    <span className="ml-3 font-medium whitespace-nowrap">
-                                        Users
-                                    </span>
-                                )}
-                                {isCollapsed && <Tooltip>Users</Tooltip>}
-                            </Link>
+                                    >
+                                        <FiUsers
+                                            className={iconClasses("/users")}
+                                        />
+                                        {!isCollapsed && (
+                                            <span className="ml-3 font-medium whitespace-nowrap">
+                                                Users
+                                            </span>
+                                        )}
+                                        {isCollapsed && (
+                                            <Tooltip>Users</Tooltip>
+                                        )}
+                                    </Link>
+                                </>
+                            )}
 
                             {/* Employer Details Link */}
                             <Link
@@ -727,13 +749,17 @@ const AdminSideBar = ({
                                     ${linkBaseClasses} ${linkCollapsedClasses} ${linkActiveClasses("/employer-details")}
                                 `}
                             >
-                                <Building className={iconClasses("/employer-details")} />
+                                <Building
+                                    className={iconClasses("/employer-details")}
+                                />
                                 {!isCollapsed && (
                                     <span className="ml-3 font-medium whitespace-nowrap">
                                         Employer Details
                                     </span>
                                 )}
-                                {isCollapsed && <Tooltip>Employer Details</Tooltip>}
+                                {isCollapsed && (
+                                    <Tooltip>Employer Details</Tooltip>
+                                )}
                             </Link>
 
                             {/* Customer Details Link */}
@@ -743,13 +769,17 @@ const AdminSideBar = ({
                                     ${linkBaseClasses} ${linkCollapsedClasses} ${linkActiveClasses("/customer-details")}
                                 `}
                             >
-                                <FiUser className={iconClasses("/customer-details")} />
+                                <FiUser
+                                    className={iconClasses("/customer-details")}
+                                />
                                 {!isCollapsed && (
                                     <span className="ml-3 font-medium whitespace-nowrap">
                                         Customer Details
                                     </span>
                                 )}
-                                {isCollapsed && <Tooltip>Customer Details</Tooltip>}
+                                {isCollapsed && (
+                                    <Tooltip>Customer Details</Tooltip>
+                                )}
                             </Link>
 
                             {/* Company Visitors Link */}
@@ -759,13 +789,19 @@ const AdminSideBar = ({
                                     ${linkBaseClasses} ${linkCollapsedClasses} ${linkActiveClasses("/company-visitor-details")}
                                 `}
                             >
-                                <FiUsers className={iconClasses("/company-visitor-details")} />
+                                <FiUsers
+                                    className={iconClasses(
+                                        "/company-visitor-details",
+                                    )}
+                                />
                                 {!isCollapsed && (
                                     <span className="ml-3 font-medium whitespace-nowrap">
                                         Company Visitors
                                     </span>
                                 )}
-                                {isCollapsed && <Tooltip>Company Visitors</Tooltip>}
+                                {isCollapsed && (
+                                    <Tooltip>Company Visitors</Tooltip>
+                                )}
                             </Link>
 
                             {/* Fixed Jobs */}
@@ -775,7 +811,11 @@ const AdminSideBar = ({
                                     ${linkBaseClasses} ${linkCollapsedClasses} ${linkActiveClasses("/fixed-job-details")}
                                 `}
                             >
-                                <FiCreditCard className={iconClasses("/fixed-job-details")} />
+                                <FiCreditCard
+                                    className={iconClasses(
+                                        "/fixed-job-details",
+                                    )}
+                                />
                                 {!isCollapsed && (
                                     <span className="ml-3 font-medium whitespace-nowrap">
                                         Fixed Jobs
@@ -784,102 +824,138 @@ const AdminSideBar = ({
                                 {isCollapsed && <Tooltip>Fixed Jobs</Tooltip>}
                             </Link>
 
-                            {/* Reports Section */}
-                            {!isCollapsed ? (
-                                // Expanded view with dropdown
-                                <div className="space-y-1">
-                                    <button
-                                        onClick={toggleReports}
-                                        className={`
+                            {isAdmin && (
+                                <>
+                                    {/* Reports Section */}
+                                    {!isCollapsed ? (
+                                        // Expanded view with dropdown
+                                        <div className="space-y-1">
+                                            <button
+                                                onClick={toggleReports}
+                                                className={`
                                             flex items-center justify-between w-full p-3 rounded-lg transition-colors duration-200
                                             ${isReportActive() ? "bg-blue-50 text-blue-700 font-semibold border-l-4 border-blue-600" : "text-gray-600 hover:bg-blue-50 hover:text-blue-700"}
                                         `}
-                                    >
-                                        <div className="flex items-center">
-                                            <FiBookOpen className={iconClasses("#", isReportActive() ? "text-blue-600" : "text-gray-500 group-hover:text-blue-600")} />
-                                            <span className="ml-3 font-medium whitespace-nowrap">
-                                                Reports
-                                            </span>
-                                        </div>
-                                        {isReportsOpen ? (
-                                            <FiChevronDown className="w-4 h-4 transition-transform duration-200" />
-                                        ) : (
-                                            <FiChevronRight className="w-4 h-4 transition-transform duration-200" />
-                                        )}
-                                    </button>
+                                            >
+                                                <div className="flex items-center">
+                                                    <FiBookOpen
+                                                        className={iconClasses(
+                                                            "#",
+                                                            isReportActive()
+                                                                ? "text-blue-600"
+                                                                : "text-gray-500 group-hover:text-blue-600",
+                                                        )}
+                                                    />
+                                                    <span className="ml-3 font-medium whitespace-nowrap">
+                                                        Reports
+                                                    </span>
+                                                </div>
+                                                {isReportsOpen ? (
+                                                    <FiChevronDown className="w-4 h-4 transition-transform duration-200" />
+                                                ) : (
+                                                    <FiChevronRight className="w-4 h-4 transition-transform duration-200" />
+                                                )}
+                                            </button>
 
-                                    {/* Dropdown Content */}
-                                    {isReportsOpen && (
-                                        <div className="ml-9 space-y-0.5">
-                                            {reportItems.map((item) => {
-                                                const active = isActive(item.href);
-                                                return (
-                                                    <Link
-                                                        key={item.href}
-                                                        href={item.href}
-                                                        className={`
+                                            {/* Dropdown Content */}
+                                            {isReportsOpen && (
+                                                <div className="ml-9 space-y-0.5">
+                                                    {reportItems.map((item) => {
+                                                        const active = isActive(
+                                                            item.href,
+                                                        );
+                                                        return (
+                                                            <Link
+                                                                key={item.href}
+                                                                href={item.href}
+                                                                className={`
                                                             flex items-center p-2.5 rounded-lg transition-colors duration-200
                                                             ${active ? "bg-blue-100 text-blue-700 font-medium" : "text-gray-600 hover:bg-blue-50 hover:text-blue-700"}
                                                         `}
-                                                    >
-                                                        <div className="w-1.5 h-1.5 rounded-full bg-gray-400 mr-3"></div>
-                                                        <span className="text-sm whitespace-nowrap">
-                                                            {item.label}
-                                                        </span>
-                                                    </Link>
-                                                );
-                                            })}
+                                                            >
+                                                                <div className="w-1.5 h-1.5 rounded-full bg-gray-400 mr-3"></div>
+                                                                <span className="text-sm whitespace-nowrap">
+                                                                    {item.label}
+                                                                </span>
+                                                            </Link>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
-                            ) : (
-                                // Collapsed view with hover dropdown
-                                <div 
-                                    className="relative"
-                                    onMouseEnter={() => setIsReportsHovered(true)}
-                                    onMouseLeave={() => setIsReportsHovered(false)}
-                                >
-                                    <button
-                                        onClick={() => {
-                                            if (isCollapsed) {
-                                                setIsReportsHovered(!isReportsHovered);
+                                    ) : (
+                                        // Collapsed view with hover dropdown
+                                        <div
+                                            className="relative"
+                                            onMouseEnter={() =>
+                                                setIsReportsHovered(true)
                                             }
-                                        }}
-                                        className={`
+                                            onMouseLeave={() =>
+                                                setIsReportsHovered(false)
+                                            }
+                                        >
+                                            <button
+                                                onClick={() => {
+                                                    if (isCollapsed) {
+                                                        setIsReportsHovered(
+                                                            !isReportsHovered,
+                                                        );
+                                                    }
+                                                }}
+                                                className={`
                                             flex items-center justify-center w-full p-3 rounded-lg transition-colors duration-200
                                             ${isReportActive() ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-blue-50 hover:text-blue-700"}
                                         `}
-                                    >
-                                        <FiBookOpen className={iconClasses("#", isReportActive() ? "text-blue-600" : "text-gray-500 group-hover:text-blue-600")} />
-                                    </button>
-                                    
-                                    {/* Collapsed dropdown - appears on hover */}
-                                    {isReportsHovered && (
-                                        <div 
-                                            className="fixed left-10 bottom-44 ml-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[160px] py-1"
-                                            onMouseEnter={() => setIsReportsHovered(true)}
-                                            onMouseLeave={() => setIsReportsHovered(false)}
-                                        >
-                                            {reportItems.map((item) => {
-                                                const active = isActive(item.href);
-                                                return (
-                                                    <Link
-                                                        key={item.href}
-                                                        href={item.href}
-                                                        className={`
+                                            >
+                                                <FiBookOpen
+                                                    className={iconClasses(
+                                                        "#",
+                                                        isReportActive()
+                                                            ? "text-blue-600"
+                                                            : "text-gray-500 group-hover:text-blue-600",
+                                                    )}
+                                                />
+                                            </button>
+
+                                            {/* Collapsed dropdown - appears on hover */}
+                                            {isReportsHovered && (
+                                                <div
+                                                    className="fixed left-10 bottom-44 ml-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[160px] py-1"
+                                                    onMouseEnter={() =>
+                                                        setIsReportsHovered(
+                                                            true,
+                                                        )
+                                                    }
+                                                    onMouseLeave={() =>
+                                                        setIsReportsHovered(
+                                                            false,
+                                                        )
+                                                    }
+                                                >
+                                                    {reportItems.map((item) => {
+                                                        const active = isActive(
+                                                            item.href,
+                                                        );
+                                                        return (
+                                                            <Link
+                                                                key={item.href}
+                                                                href={item.href}
+                                                                className={`
                                                             flex items-center px-3 py-2.5 text-sm transition-colors duration-200
                                                             ${active ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-600 hover:bg-blue-50 hover:text-blue-700"}
                                                         `}
-                                                    >
-                                                        <span className="whitespace-nowrap">
-                                                            {item.label}
-                                                        </span>
-                                                    </Link>
-                                                );
-                                            })}
+                                                            >
+                                                                <span className="whitespace-nowrap">
+                                                                    {item.label}
+                                                                </span>
+                                                            </Link>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
                                         </div>
                                     )}
-                                </div>
+                                </>
                             )}
                         </div>
                     </div>

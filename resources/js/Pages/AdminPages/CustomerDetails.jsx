@@ -5,6 +5,7 @@ import axios from "axios";
 import AddCustomerForm from "@/AddFormComponents/AddCustomerForm";
 import MyTable from "./MyTable";
 import { MainContextData } from '@/Context/MainContext';
+import { Head } from "@inertiajs/react";
 
 const CustomerDetails = () => {
     const [allCustomers, setAllCustomers] = useState([]);
@@ -224,6 +225,7 @@ const CustomerDetails = () => {
 
     return (
         <AdminWrapper>
+            <Head title="Customer Details" />
             <div className="py-4 ">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-4">

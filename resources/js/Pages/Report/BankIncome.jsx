@@ -1,6 +1,8 @@
 import AdminWrapper from "@/AdminWrapper/AdminWrapper";
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 import {
     Calendar,
@@ -14,6 +16,7 @@ import {
     Download,
 } from "lucide-react";
 import MyTable from "../AdminPages/MyTable";
+import { Head } from "@inertiajs/react";
 
 const BankIncome = () => {
     const [phonePayVisitors, setPhonePayVisitors] = useState([]);
@@ -228,6 +231,78 @@ const BankIncome = () => {
             .sort((a, b) => b.total - a.total);
     }, [filteredVisitors]);
 
+    // Handle PDF download for bank income report
+    const handleDownloadPDF = () => {
+        const doc = new jsPDF({
+            orientation: "landscape", // wide table
+            unit: "mm",
+            format: "a4",
+        });
+
+        // Title
+        doc.setFontSize(16);
+        doc.text("Bank Income", 14, 15);
+
+        // Subtitle (date + filter info)
+        doc.setFontSize(10);
+        doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 22);
+
+        if (isFiltered && startDate && endDate) {
+            doc.text(`Filtered Range: ${startDate} → ${endDate}`, 14, 28);
+        }
+
+        // Summary
+        doc.text(
+            `Total Income: ${
+                isFiltered ? calculateFilteredTotal : totalIncome
+            }`,
+            200,
+            22,
+        );
+
+        // Table
+        autoTable(doc, {
+            startY: isFiltered ? 34 : 30,
+            head: [
+                [
+                    "SN",
+                    "Name",
+                    "Company",
+                    "Salary",
+                    "Percent",
+                    "Income",
+                    "Payment Method",
+                    "Date",
+                    "Citizenship",
+                ],
+            ],
+            body: filteredVisitors.map((v, index) => [
+                index + 1,
+                v.name || "-",
+                v.companyname || "-",
+                v.salary ? parseFloat(v.salary).toFixed(2) : "-",
+                v.percent ? `${parseFloat(v.percent).toFixed(2)}%` : "-",
+                v.income ? parseFloat(v.income).toFixed(2) : "-",
+                v.payment_method || "-",
+                v.date ? new Date(v.date).toLocaleDateString("en-US") : "-",
+                v.citizenship || "-",
+            ]),
+            styles: {
+                fontSize: 8,
+                cellPadding: 3,
+            },
+            headStyles: {
+                fillColor: [31, 41, 55], // dark gray
+                textColor: 255,
+            },
+            alternateRowStyles: {
+                fillColor: [245, 247, 250],
+            },
+        });
+
+        doc.save("bank-income-report.pdf");
+    };
+
     // Define columns for phone pay reports table
     const phonePayColumns = useMemo(
         () => [
@@ -295,6 +370,7 @@ const BankIncome = () => {
 
     return (
         <AdminWrapper>
+            <Head title="Bank Income Report" />
             <div className="py-4">
                 <div className="flex justify-between items-center mb-6">
                     <div>
@@ -444,9 +520,14 @@ const BankIncome = () => {
                             </div>
                         </div>
                         {/* Left side - Download */}
-                        <button className="flex gap-4">
-                            <Download className="w-6 h-6 text-gray-600 hover:text-gray-800" />
-                            <span>PDF</span>
+                        <button
+                            onClick={handleDownloadPDF}
+                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+                        >
+                            <Download className="w-5 h-5 text-gray-600" />
+                            <span className="text-sm font-medium text-gray-700">
+                                PDF
+                            </span>
                         </button>
                     </div>
                 </div>

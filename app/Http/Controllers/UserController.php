@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -28,11 +30,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
-            'roles'    => 'nullable|string',
-            'image'    => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'roles' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $imagePath = null;
@@ -42,11 +44,20 @@ class UserController extends Controller
         }
 
         $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'roles'    => $request->roles,
-            'image'    => $imagePath,
+            'name' => $request->name,
+            'email' => $request->email,
+            'roles' => $request->roles,
+            'image' => $imagePath,
             'password' => Hash::make($request->password),
+        ]);
+
+        $adminName = Auth::user()->name ?? 'System';
+
+        // Log the creation action
+        UserLog::create([
+            'name' => $adminName,
+            'ip_address' => $request->ip(),
+            'title' => $adminName . ' created the user ' . $user->name,
         ]);
 
         return response()->json([
@@ -63,12 +74,15 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
+        $oldName = $user->name;
+        $adminName = Auth::user()->name ?? 'System';
+
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email,' . $user->id,
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,'.$user->id,
             'password' => 'nullable|min:6',
-            'roles'    => 'nullable|string',
-            'image'    => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'roles' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -80,7 +94,7 @@ class UserController extends Controller
             $user->image = $request->file('image')->store('users', 'public');
         }
 
-        $user->name  = $request->name;
+        $user->name = $request->name;
         $user->email = $request->email;
         $user->roles = $request->roles;
 
@@ -89,6 +103,13 @@ class UserController extends Controller
         }
 
         $user->save();
+
+        // Log the update action
+        UserLog::create([
+            'name' => $adminName,
+            'ip_address' => $request->ip(),
+            'title' => $adminName . ' updated the user ' . $oldName,
+        ]);
 
         return response()->json([
             'status' => true,
@@ -104,11 +125,21 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
+        $userName = $user->name;
+        $adminName = Auth::user()->name ?? 'System';
+
         if ($user->image && Storage::disk('public')->exists($user->image)) {
             Storage::disk('public')->delete($user->image);
         }
 
         $user->delete();
+
+        // Log the deletion action
+        UserLog::create([
+            'name' => $adminName,
+            'ip_address' => request()->ip(),
+            'title' => $adminName . ' deleted the user ' . $userName,
+        ]);
 
         return response()->json([
             'status' => true,

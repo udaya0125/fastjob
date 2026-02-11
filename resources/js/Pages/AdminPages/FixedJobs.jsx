@@ -383,6 +383,7 @@ import axios from "axios";
 import MyTable from "./MyTable";
 import EditFixedJobForm from "@/EditFormComponents/EditFixedJobForm";
 import { Edit, Search, Trash2, X } from "lucide-react";
+import { Head } from "@inertiajs/react";
 
 const FixedJobs = () => {
     const [confirmedVisitors, setConfirmedVisitors] = useState([]);
@@ -633,6 +634,7 @@ const FixedJobs = () => {
     return (
         <>
             <AdminWrapper>
+                <Head title="Fixed Jobs" />
                 <div className="py-4">
                     <div className="flex justify-between items-center mb-6">
                         <div>
