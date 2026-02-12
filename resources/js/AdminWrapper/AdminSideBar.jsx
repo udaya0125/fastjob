@@ -658,9 +658,9 @@ const AdminSideBar = ({
                         style={{ borderColor: "#e5e7eb" }}
                     >
                         {!isCollapsed && (
-                            <div className="text-xl font-bold text-gray-800 whitespace-nowrap">
+                            <Link href="/dashboard" className="text-xl font-bold text-gray-800 whitespace-nowrap">
                                 Fast Job
-                            </div>
+                            </Link>
                         )}
                         <div className="flex items-center space-x-1">
                             {/* Collapse Toggle Button - Only show on desktop */}

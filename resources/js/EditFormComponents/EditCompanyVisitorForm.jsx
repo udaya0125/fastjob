@@ -233,7 +233,7 @@ const EditCompanyVisitorForm = ({
                         {/* Date Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Date *
+                                Date<span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="date"
@@ -258,7 +258,7 @@ const EditCompanyVisitorForm = ({
                         {/* Name Field - React Select */}
                         <div className="relative">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Name *
+                                Name<span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="name"
@@ -306,7 +306,7 @@ const EditCompanyVisitorForm = ({
                         {/* Contact Number Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Contact Number *
+                                Contact Number<span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="customer_number"
@@ -339,7 +339,7 @@ const EditCompanyVisitorForm = ({
                         {/* Company Name Field - React Select */}
                         <div className="relative">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Company Name *
+                                Company Name<span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="companyname"
@@ -387,7 +387,7 @@ const EditCompanyVisitorForm = ({
                         {/* Position Field - Text Input */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Position
+                                Position<span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="position"
@@ -407,7 +407,7 @@ const EditCompanyVisitorForm = ({
                         {/* Status Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Status *
+                                Status<span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="status"

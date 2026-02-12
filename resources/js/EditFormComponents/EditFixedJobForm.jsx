@@ -760,7 +760,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Date */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Date *
+                                    Date<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="date"
@@ -783,7 +783,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Name - React Select */}
                             <div className="relative">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Name *
+                                    Name<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="name"
@@ -815,7 +815,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Contact Number */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Contact Number *
+                                    Contact Number<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="customer_number"
@@ -845,7 +845,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Company Name - React Select */}
                             <div className="relative">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Company Name *
+                                    Company Name<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="companyname"
@@ -877,7 +877,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Status */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Status *
+                                    Status<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="status"
@@ -904,7 +904,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Salary */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Salary
+                                    Salary<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="salary"
@@ -924,7 +924,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Income Type */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Income Type
+                                    Income Type<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="income_type"
@@ -947,7 +947,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {isPercentageType && (
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Percent (%)
+                                        Percent (%)<span className="text-red-500">*</span>
                                     </label>
                                     <Controller
                                         name="percent"
@@ -968,7 +968,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Income - Different behavior based on income_type */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Income {isPercentageType ? "(Calculated)" : ""}
+                                    Income {isPercentageType ? "(Calculated)" : ""}<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="income"
@@ -991,7 +991,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Payment Status */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Payment Status *
+                                    Payment Status<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="payment_status"
@@ -1018,11 +1018,12 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Payment Method */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Payment Method
+                                    Payment Method<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="payment_method"
                                     control={control}
+                                    rules={{ required: "Payment method is required" }}
                                     render={({ field }) => (
                                         <select
                                             {...field}
@@ -1040,7 +1041,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Citizenship */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Citizenship
+                                    Citizenship<span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="citizenship"

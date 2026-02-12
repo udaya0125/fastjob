@@ -791,7 +791,7 @@ const AddCompanyVisitorForm = ({ setReloadTrigger, onClose }) => {
                         {/* Date Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Date *
+                                Date<span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="date"
@@ -817,7 +817,7 @@ const AddCompanyVisitorForm = ({ setReloadTrigger, onClose }) => {
                         <div className="relative">
                             <div className="flex items-center justify-between mb-1">
                                 <label className="block text-sm font-medium text-gray-700">
-                                    Name *
+                                    Name<span className="text-red-500">*</span>
                                 </label>
                                 <button
                                     type="button"
@@ -874,7 +874,7 @@ const AddCompanyVisitorForm = ({ setReloadTrigger, onClose }) => {
                         {/* Contact Number Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Contact Number *
+                                Contact Number<span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="customer_number"
@@ -908,7 +908,7 @@ const AddCompanyVisitorForm = ({ setReloadTrigger, onClose }) => {
                         <div className="relative">
                             <div className="flex items-center justify-between mb-1">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Company Name *
+                                    Company Name<span className="text-red-500">*</span>
                                 </label>
                                 <button
                                     type="button"
@@ -965,7 +965,7 @@ const AddCompanyVisitorForm = ({ setReloadTrigger, onClose }) => {
                         {/* Position Field - Text Input */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Position
+                                Position<span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="position"
@@ -985,7 +985,7 @@ const AddCompanyVisitorForm = ({ setReloadTrigger, onClose }) => {
                         {/* Status Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Status *
+                                Status<span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="status"

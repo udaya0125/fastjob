@@ -45,9 +45,9 @@ use App\Http\Controllers\UserLogController;
     });
 
 
-    Route::get('/loginpage', function () {
-        return Inertia::render('OthersPage/LoginPage');
-    });
+    // Route::get('/loginpage', function () {
+    //     return Inertia::render('OthersPage/LoginPage');
+    // });
 
     // ******************************************************************
     //  Authenticated Routes Group

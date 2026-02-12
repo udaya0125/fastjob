@@ -104,7 +104,7 @@ const AddCustomerForm = ({ editingCustomer, onClose, onSuccess }) => {
                         {/* Name */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Name *
+                                Name<span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -121,7 +121,7 @@ const AddCustomerForm = ({ editingCustomer, onClose, onSuccess }) => {
                         {/* Contact Number */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Contact Number *
+                                Contact Number<span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -154,7 +154,7 @@ const AddCustomerForm = ({ editingCustomer, onClose, onSuccess }) => {
                         {/* Experience */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Experience
+                                Experience<span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -173,7 +173,7 @@ const AddCustomerForm = ({ editingCustomer, onClose, onSuccess }) => {
                         {/* Permanent Address */}
                         <div className="flex-1">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Permanent Address
+                                Permanent Address<span className="text-red-500">*</span>
                             </label>
                             <textarea
                                 name="permanent_address"
@@ -189,7 +189,7 @@ const AddCustomerForm = ({ editingCustomer, onClose, onSuccess }) => {
                         {/* Temporary Address */}
                         <div className="flex-1">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Temporary Address
+                                Temporary Address<span className="text-red-500">*</span>
                             </label>
                             <textarea
                                 name="temporary_address"
@@ -206,7 +206,7 @@ const AddCustomerForm = ({ editingCustomer, onClose, onSuccess }) => {
                     {/* Interested In */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Interested In
+                            Interested In<span className="text-red-500">*</span>
                         </label>
                         <input
                             type="text"

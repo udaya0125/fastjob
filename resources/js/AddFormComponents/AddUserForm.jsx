@@ -19,6 +19,8 @@ const AddUserForm = ({
         roles: "User",
     });
 
+    
+
     // Clean up object URLs to prevent memory leaks
     useEffect(() => {
         return () => {
@@ -238,7 +240,7 @@ const AddUserForm = ({
                     {/* Name Field */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Name *
+                            Name<span className="text-red-500">*</span>
                         </label>
                         <input
                             type="text"
@@ -254,7 +256,7 @@ const AddUserForm = ({
                     {/* Email Field */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Email *
+                            Email<span className="text-red-500">*</span>
                         </label>
                         <input
                             type="email"
@@ -270,7 +272,7 @@ const AddUserForm = ({
                     {/* Role Field */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Role *
+                            Role<span className="text-red-500">*</span>
                         </label>
                         <select
                             name="roles"
@@ -288,7 +290,7 @@ const AddUserForm = ({
                     {/* Password Field */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Password *
+                            Password<span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                             <input
@@ -319,7 +321,7 @@ const AddUserForm = ({
                     {/* Password Confirmation Field */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Confirm Password *
+                            Confirm Password<span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                             <input

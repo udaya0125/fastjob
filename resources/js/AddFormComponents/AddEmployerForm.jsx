@@ -150,7 +150,7 @@ const AddEmployerForm = ({
                         {/* Company Name */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Company Name *
+                                Company Name<span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -166,7 +166,7 @@ const AddEmployerForm = ({
                         {/* Job Post */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Job Post *
+                                Job Post<span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -182,7 +182,7 @@ const AddEmployerForm = ({
                         {/* Location */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Location *
+                                Location<span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -198,7 +198,7 @@ const AddEmployerForm = ({
                         {/* Salary */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Salary
+                                Salary<span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -213,7 +213,7 @@ const AddEmployerForm = ({
                         {/* Job Type - Changed from select to text input */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Working Time *
+                                Working Time<span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -229,7 +229,7 @@ const AddEmployerForm = ({
                         {/* Contact Number */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Contact Number *
+                                Contact Number<span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -246,7 +246,7 @@ const AddEmployerForm = ({
                     {/* Experience - Full width */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Experience
+                            Experience<span className="text-red-500">*</span>
                         </label>
                         <input
                             type="text"

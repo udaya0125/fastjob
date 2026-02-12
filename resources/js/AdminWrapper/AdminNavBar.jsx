@@ -68,11 +68,11 @@ const AdminNavBar = ({ onMenuToggle }) => {
                         </button>
 
                         {/* Optional: Add branding/logo here */}
-                        <div className="hidden lg:block">
+                        <Link href="/dashboard" className="hidden lg:block">
                             <h1 className="text-lg font-semibold text-gray-800">
                                 Fast Job
                             </h1>
-                        </div>
+                        </Link>
                     </div>
 
                     {/* Right side - User menu */}

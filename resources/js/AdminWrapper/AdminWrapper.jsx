@@ -39,11 +39,11 @@ const AdminWrapper = ({ children }) => {
             />
 
             <main
-                className={`flex-1 pt-16 transition-all duration-300 bg-[#eaebef] px-6 ${
+                className={`flex-1 pt-16 transition-all duration-300 bg-[#eaebef]/40 px-4 lg:px-6 ${
                     isCollapsed ? "lg:ml-16" : "lg:ml-64"
                 }`}
             >
-                <div className="p-4 ">
+                <div className="p-4">
                     {children}
                 </div>
             </main>
