@@ -650,7 +650,7 @@ const IncomeReports = () => {
             <div className="py-4">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-800">
+                        <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">
                             Report visitors
                         </h1>
                     </div>
@@ -666,7 +666,7 @@ const IncomeReports = () => {
                             </p>
                         </div>
                         <p className="text-2xl font-bold text-gray-900 mt-2">
-                            {isFiltered
+                           NPR {isFiltered
                                 ? calculateFilteredTotal.toFixed(2)
                                 : totalIncome.toFixed(2)}
                         </p>
@@ -677,14 +677,14 @@ const IncomeReports = () => {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-600 font-medium">
-                                    {isFiltered
+                                   NPR {isFiltered
                                         ? "Filtered Monthly"
                                         : ` Monthly Income (${currentMonth})`}
                                 </p>
                             </div>
                         </div>
                         <p className="text-2xl font-bold text-gray-900 mt-1">
-                            {isFiltered
+                           NPR {isFiltered
                                 ? calculateFilteredMonthlyIncome.toFixed(2)
                                 : monthlyIncome.toFixed(2)}
                         </p>
@@ -695,14 +695,14 @@ const IncomeReports = () => {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-600 font-medium">
-                                    {isFiltered
+                                   NPR {isFiltered
                                         ? "Filtered Yearly"
                                         : ` Yearly Income (${currentYear})`}
                                 </p>
                             </div>
                         </div>
                         <p className="text-2xl font-bold text-gray-900 mt-1">
-                            {isFiltered
+                           NPR {isFiltered
                                 ? calculateFilteredYearlyIncome.toFixed(2)
                                 : yearlyIncome.toFixed(2)}
                         </p>

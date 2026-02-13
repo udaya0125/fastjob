@@ -615,13 +615,13 @@ const PendingReports = () => {
                     return value ? `${parseFloat(value).toFixed(2)}` : "-";
                 },
             },
-            {
-                Header: "Payment Method",
-                accessor: "payment_method",
-                Cell: ({ value }) => {
-                    return value || "-";
-                },
-            },
+            // {
+            //     Header: "Payment Method",
+            //     accessor: "payment_method",
+            //     Cell: ({ value }) => {
+            //         return value || "-";
+            //     },
+            // },
             {
                 Header: "Date",
                 accessor: "date",
@@ -649,7 +649,7 @@ const PendingReports = () => {
             <div className='py-4'>
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-800">
+                        <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">
                             Pending Report Details
                         </h1>
                     </div>
@@ -665,7 +665,7 @@ const PendingReports = () => {
                             </p>
                         </div>
                         <p className="text-2xl font-bold text-gray-900 mt-2">
-                            {isFiltered ? calculateFilteredTotal.toFixed(2) : totalPending.toFixed(2)}
+                           NPR {isFiltered ? calculateFilteredTotal.toFixed(2) : totalPending.toFixed(2)}
                         </p>
                     </div>
 
@@ -674,14 +674,14 @@ const PendingReports = () => {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-600 font-medium">
-                                    {isFiltered
+                                    NPR {isFiltered
                                         ? "Filtered Monthly"
                                         : ` Monthly Pending (${currentMonth})`}
                                 </p>
                             </div>
                         </div>
                         <p className="text-2xl font-bold text-gray-900 mt-1">
-                            {isFiltered
+                           NPR {isFiltered
                                 ? calculateFilteredMonthlyPending.toFixed(2)
                                 : monthlyPending.toFixed(2)}
                         </p>
@@ -692,14 +692,14 @@ const PendingReports = () => {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-600 font-medium">
-                                    {isFiltered
+                                   NPR {isFiltered
                                         ? "Filtered Yearly"
                                         : ` Yearly Pending (${currentYear})`}
                                 </p>
                             </div>
                         </div>
                         <p className="text-2xl font-bold text-gray-900 mt-1">
-                            {isFiltered
+                           NPR {isFiltered
                                 ? calculateFilteredYearlyPending.toFixed(2)
                                 : yearlyPending.toFixed(2)}
                         </p>

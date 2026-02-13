@@ -93,7 +93,6 @@ Route::middleware('auth')->group(function () {
     });
 
 
-
     // ******************************************************************
     //  Controller Functions for Admin Pages and Reports
     // ******************************************************************
@@ -106,7 +105,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/ourvisitors', [CompanyvisitorsController::class, 'store'])->name('ourvisitors.store');
     Route::put('/ourvisitors/{id}', [CompanyvisitorsController::class, 'update'])->name('ourvisitors.update');
     Route::delete('/ourvisitors/{id}', [CompanyvisitorsController::class, 'destroy'])->name('ourvisitors.destroy');
-
 
 
     // ----------------------------------------------------------------
@@ -140,11 +138,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/ouremployersdetails', [EmployerController::class, 'employeeindex'])->name('ouremployersdetails.employeeindex');
 
-
 });
 
 
+    // ******************************************************************
+    //  Admin Pages Routes
+    // ******************************************************************
 
+    
 Route::middleware(['auth', 'roles:Admin'])->group(function() {
 
 
@@ -164,6 +165,7 @@ Route::middleware(['auth', 'roles:Admin'])->group(function() {
     Route::get('/user-logs', function () {
         return Inertia::render('AdminPages/ActivityLogs');
     });
+
 
     // ******************************************************************
     //  Report Pages Routes
@@ -244,8 +246,7 @@ Route::middleware(['auth', 'roles:Admin'])->group(function() {
     // ----------------------------------------------------------------
 
     Route::get('/company-visitors/cash', [CompanyvisitorsController::class, 'cashVisitors'])->name('ourvisitors.cash');
-
-
+    
     // ----------------------------------------------------------------
     // Add this route for phone pay visitors
     // ----------------------------------------------------------------

@@ -99,20 +99,20 @@
 //             setLoadingOptions(prev => ({ ...prev, companies: true }));
 //             const response = await axios.get(route("ouremployersdetails.employeeindex"));
 //             const employers = response.data.data || [];
-            
+
 //             // Extract company names
 //             const companyOptionsSet = new Set();
 //             employers.forEach(employer => {
 //                 if (employer.name) companyOptionsSet.add(employer.name);
 //             });
-            
+
 //             // Format company options
 //             const companyFormatted = Array.from(companyOptionsSet).map(company => ({
 //                 value: company,
 //                 label: company
 //             }));
 //             setCompanyOptions(companyFormatted);
-            
+
 //         } catch (error) {
 //             console.error("Error fetching employers:", error);
 //             setCompanyOptions([]);
@@ -280,7 +280,7 @@
 //                                 <Controller
 //                                     name="customer_number"
 //                                     control={control}
-//                                     rules={{ 
+//                                     rules={{
 //                                         required: "Contact number is required",
 //                                         pattern: {
 //                                             value: /^[0-9\s\-+()]+$/,
@@ -552,13 +552,11 @@
 
 // export default EditFixedJobForm;
 
-
-
-import React, { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import Select from 'react-select';
-import axios from 'axios';
-import { X } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import Select from "react-select";
+import axios from "axios";
+import { X } from "lucide-react";
 
 const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
     const [submitting, setSubmitting] = useState(false);
@@ -566,7 +564,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
     const [companyOptions, setCompanyOptions] = useState([]);
     const [loadingOptions, setLoadingOptions] = useState({
         names: false,
-        companies: false
+        companies: false,
     });
 
     const {
@@ -575,44 +573,59 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
         reset,
         watch,
         setValue,
-        formState: { errors }
+        formState: { errors },
     } = useForm({
         defaultValues: {
-            date: '',
-            name: '',
-            customer_number: '',
-            companyname: '',
-            salary: '',
-            income_type: '',
-            percent: '',
-            income: '',
-            status: 'Confirm',
-            payment_status: '',
-            payment_method: '',
-            citizenship: '',
-        }
+            date: "",
+            name: "",
+            customer_number: "",
+            companyname: "",
+            salary: "",
+            income_type: "",
+            percent: "",
+            income: "",
+            status: "Confirm",
+            payment_status: "",
+            payment_method: "",
+            citizenship: "",
+        },
     });
 
     const watchedIncomeType = watch("income_type");
     const watchedSalary = watch("salary");
     const watchedPercent = watch("percent");
 
+    // Add this useEffect to lock body scroll when form mounts
+    useEffect(() => {
+        // Lock body scroll
+        document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.width = "100%";
+
+        // Cleanup function to restore scroll when component unmounts
+        return () => {
+            document.body.style.overflow = "unset";
+            document.body.style.position = "static";
+            document.body.style.width = "auto";
+        };
+    }, []); // Empty dependency array means this runs once on mount
+
     // Initialize form data when visitor changes
     useEffect(() => {
         if (visitor) {
             reset({
-                date: visitor.date ? visitor.date.split('T')[0] : '',
-                name: visitor.name || '',
-                customer_number: visitor.customer_number || '',
-                companyname: visitor.companyname || '',
-                salary: visitor.salary || '',
-                income_type: visitor.income_type || '',
-                percent: visitor.percent || '',
-                income: visitor.income || '',
-                status: visitor.status || 'Confirm',
-                payment_status: visitor.payment_status || '',
-                payment_method: visitor.payment_method || '',
-                citizenship: visitor.citizenship || '',
+                date: visitor.date ? visitor.date.split("T")[0] : "",
+                name: visitor.name || "",
+                customer_number: visitor.customer_number || "",
+                companyname: visitor.companyname || "",
+                salary: visitor.salary || "",
+                income_type: visitor.income_type || "",
+                percent: visitor.percent || "",
+                income: visitor.income || "",
+                status: visitor.status || "Confirm",
+                payment_status: visitor.payment_status || "",
+                payment_method: visitor.payment_method || "",
+                citizenship: visitor.citizenship || "",
             });
         }
     }, [visitor, reset]);
@@ -625,8 +638,15 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
 
     // Calculate income when salary, percent, or income_type changes
     useEffect(() => {
-        if (watchedIncomeType === 'percentage' && watchedSalary && watchedPercent) {
-            const calculatedIncome = (parseFloat(watchedSalary) * parseFloat(watchedPercent) / 100).toFixed(2);
+        if (
+            watchedIncomeType === "percentage" &&
+            watchedSalary &&
+            watchedPercent
+        ) {
+            const calculatedIncome = (
+                (parseFloat(watchedSalary) * parseFloat(watchedPercent)) /
+                100
+            ).toFixed(2);
             setValue("income", calculatedIncome, { shouldValidate: true });
         }
     }, [watchedIncomeType, watchedSalary, watchedPercent, setValue]);
@@ -634,47 +654,54 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
     // Fetch customer names
     const fetchNameOptions = async () => {
         try {
-            setLoadingOptions(prev => ({ ...prev, names: true }));
-            const response = await axios.get(route("ourcustomername.indexname"));
-            const formattedOptions = (response.data.data || response.data).map(customer => ({
-                value: customer.name,
-                label: customer.name,
-                customerId: customer.id
-            }));
+            setLoadingOptions((prev) => ({ ...prev, names: true }));
+            const response = await axios.get(
+                route("ourcustomername.indexname"),
+            );
+            const formattedOptions = (response.data.data || response.data).map(
+                (customer) => ({
+                    value: customer.name,
+                    label: customer.name,
+                    customerId: customer.id,
+                }),
+            );
             setNameOptions(formattedOptions);
         } catch (error) {
             console.error("Error fetching customer names:", error);
             setNameOptions([]);
         } finally {
-            setLoadingOptions(prev => ({ ...prev, names: false }));
+            setLoadingOptions((prev) => ({ ...prev, names: false }));
         }
     };
 
     // Fetch company names (from employers)
     const fetchCompanyOptions = async () => {
         try {
-            setLoadingOptions(prev => ({ ...prev, companies: true }));
-            const response = await axios.get(route("ouremployersdetails.employeeindex"));
+            setLoadingOptions((prev) => ({ ...prev, companies: true }));
+            const response = await axios.get(
+                route("ouremployersdetails.employeeindex"),
+            );
             const employers = response.data.data || [];
-            
+
             // Extract company names
             const companyOptionsSet = new Set();
-            employers.forEach(employer => {
+            employers.forEach((employer) => {
                 if (employer.name) companyOptionsSet.add(employer.name);
             });
-            
+
             // Format company options
-            const companyFormatted = Array.from(companyOptionsSet).map(company => ({
-                value: company,
-                label: company
-            }));
+            const companyFormatted = Array.from(companyOptionsSet).map(
+                (company) => ({
+                    value: company,
+                    label: company,
+                }),
+            );
             setCompanyOptions(companyFormatted);
-            
         } catch (error) {
             console.error("Error fetching employers:", error);
             setCompanyOptions([]);
         } finally {
-            setLoadingOptions(prev => ({ ...prev, companies: false }));
+            setLoadingOptions((prev) => ({ ...prev, companies: false }));
         }
     };
 
@@ -691,8 +718,8 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
             await onUpdate(data);
             // The parent component will handle closing and reloading
         } catch (error) {
-            console.error('Update error:', error);
-            alert('Failed to update details');
+            console.error("Update error:", error);
+            alert("Failed to update details");
             setSubmitting(false);
         }
     };
@@ -707,41 +734,54 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
     const selectStyles = {
         control: (base, state) => ({
             ...base,
-            minHeight: '42px',
-            borderColor: state.isFocused ? '#6366f1' : errors[state.name] ? '#ef4444' : '#d1d5db',
-            boxShadow: state.isFocused ? '0 0 0 2px rgba(99, 102, 241, 0.2)' : 'none',
-            '&:hover': {
-                borderColor: state.isFocused ? '#6366f1' : '#9ca3af'
-            }
+            minHeight: "42px",
+            borderColor: state.isFocused
+                ? "#6366f1"
+                : errors[state.name]
+                  ? "#ef4444"
+                  : "#d1d5db",
+            boxShadow: state.isFocused
+                ? "0 0 0 2px rgba(99, 102, 241, 0.2)"
+                : "none",
+            "&:hover": {
+                borderColor: state.isFocused ? "#6366f1" : "#9ca3af",
+            },
         }),
         menu: (base) => ({
             ...base,
             zIndex: 9999,
-            position: 'absolute',
-            marginTop: '4px'
+            position: "absolute",
+            marginTop: "4px",
         }),
         menuList: (base) => ({
             ...base,
-            maxHeight: '200px',
-            overflow: 'auto'
+            maxHeight: "200px",
+            overflow: "auto",
         }),
         option: (base, state) => ({
             ...base,
-            backgroundColor: state.isSelected ? '#6366f1' : state.isFocused ? '#eef2ff' : 'white',
-            color: state.isSelected ? 'white' : '#374151',
-            '&:active': {
-                backgroundColor: '#4f46e5'
-            }
+            backgroundColor: state.isSelected
+                ? "#6366f1"
+                : state.isFocused
+                  ? "#eef2ff"
+                  : "white",
+            color: state.isSelected ? "white" : "#374151",
+            "&:active": {
+                backgroundColor: "#4f46e5",
+            },
         }),
-        menuPortal: base => ({ ...base, zIndex: 9999 })
+        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
     };
 
-    const isPercentageType = watchedIncomeType === 'percentage';
-    const isManualType = watchedIncomeType === 'manual';
+    const isPercentageType = watchedIncomeType === "percentage";
+    const isManualType = watchedIncomeType === "manual";
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto relative" style={{ zIndex: 100 }}>
+            <div
+                className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto relative"
+                style={{ zIndex: 100 }}
+            >
                 <div className="p-6">
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-2xl font-bold text-gray-800">
@@ -755,7 +795,10 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                         </button>
                     </div>
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className="space-y-4"
+                    >
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {/* Date */}
                             <div>
@@ -776,7 +819,9 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                                     )}
                                 />
                                 {errors.date && (
-                                    <p className="text-red-500 text-xs mt-1">{errors.date.message}</p>
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.date.message}
+                                    </p>
                                 )}
                             </div>
 
@@ -793,13 +838,27 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                                         <Select
                                             {...field}
                                             options={nameOptions}
-                                            value={nameOptions.find(option => option.value === field.value) || null}
-                                            onChange={(selected) => field.onChange(selected?.value || "")}
+                                            value={
+                                                nameOptions.find(
+                                                    (option) =>
+                                                        option.value ===
+                                                        field.value,
+                                                ) || null
+                                            }
+                                            onChange={(selected) =>
+                                                field.onChange(
+                                                    selected?.value || "",
+                                                )
+                                            }
                                             placeholder="Select or type to search..."
                                             isSearchable
                                             isLoading={loadingOptions.names}
-                                            loadingMessage={() => "Loading names..."}
-                                            noOptionsMessage={() => "No names found"}
+                                            loadingMessage={() =>
+                                                "Loading names..."
+                                            }
+                                            noOptionsMessage={() =>
+                                                "No names found"
+                                            }
                                             styles={selectStyles}
                                             isDisabled={submitting}
                                             menuPortalTarget={document.body}
@@ -808,24 +867,28 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                                     )}
                                 />
                                 {errors.name && (
-                                    <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.name.message}
+                                    </p>
                                 )}
                             </div>
 
                             {/* Contact Number */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Contact Number<span className="text-red-500">*</span>
+                                    Contact Number
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="customer_number"
                                     control={control}
-                                    rules={{ 
+                                    rules={{
                                         required: "Contact number is required",
                                         pattern: {
                                             value: /^[0-9\s\-+()]+$/,
-                                            message: "Please enter a valid contact number"
-                                        }
+                                            message:
+                                                "Please enter a valid contact number",
+                                        },
                                     }}
                                     render={({ field }) => (
                                         <input
@@ -838,30 +901,49 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                                     )}
                                 />
                                 {errors.customer_number && (
-                                    <p className="text-red-500 text-xs mt-1">{errors.customer_number.message}</p>
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.customer_number.message}
+                                    </p>
                                 )}
                             </div>
 
                             {/* Company Name - React Select */}
                             <div className="relative">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Company Name<span className="text-red-500">*</span>
+                                    Company Name
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="companyname"
                                     control={control}
-                                    rules={{ required: "Company name is required" }}
+                                    rules={{
+                                        required: "Company name is required",
+                                    }}
                                     render={({ field }) => (
                                         <Select
                                             {...field}
                                             options={companyOptions}
-                                            value={companyOptions.find(option => option.value === field.value) || null}
-                                            onChange={(selected) => field.onChange(selected?.value || "")}
+                                            value={
+                                                companyOptions.find(
+                                                    (option) =>
+                                                        option.value ===
+                                                        field.value,
+                                                ) || null
+                                            }
+                                            onChange={(selected) =>
+                                                field.onChange(
+                                                    selected?.value || "",
+                                                )
+                                            }
                                             placeholder="Select or type to search..."
                                             isSearchable
                                             isLoading={loadingOptions.companies}
-                                            loadingMessage={() => "Loading companies..."}
-                                            noOptionsMessage={() => "No companies found"}
+                                            loadingMessage={() =>
+                                                "Loading companies..."
+                                            }
+                                            noOptionsMessage={() =>
+                                                "No companies found"
+                                            }
                                             styles={selectStyles}
                                             isDisabled={submitting}
                                             menuPortalTarget={document.body}
@@ -870,14 +952,17 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                                     )}
                                 />
                                 {errors.companyname && (
-                                    <p className="text-red-500 text-xs mt-1">{errors.companyname.message}</p>
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.companyname.message}
+                                    </p>
                                 )}
                             </div>
 
                             {/* Status */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Status<span className="text-red-500">*</span>
+                                    Status
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="status"
@@ -889,22 +974,33 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                             disabled={submitting}
                                         >
-                                            <option value="Pending">Pending</option>
-                                            <option value="Confirm">Confirm</option>
-                                            <option value="Training">Training</option>
-                                            <option value="Rejected">Rejected</option>
+                                            <option value="Pending">
+                                                Pending
+                                            </option>
+                                            <option value="Confirm">
+                                                Confirm
+                                            </option>
+                                            <option value="Training">
+                                                Training
+                                            </option>
+                                            <option value="Rejected">
+                                                Rejected
+                                            </option>
                                         </select>
                                     )}
                                 />
                                 {errors.status && (
-                                    <p className="text-red-500 text-xs mt-1">{errors.status.message}</p>
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.status.message}
+                                    </p>
                                 )}
                             </div>
 
                             {/* Salary */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Salary<span className="text-red-500">*</span>
+                                    Salary
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="salary"
@@ -924,7 +1020,8 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Income Type */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Income Type<span className="text-red-500">*</span>
+                                    Income Type
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="income_type"
@@ -935,9 +1032,15 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                             disabled={submitting}
                                         >
-                                            <option value="">Select Income Type</option>
-                                            <option value="percentage">Percentage</option>
-                                            <option value="manual">Manual</option>
+                                            <option value="">
+                                                Select Income Type
+                                            </option>
+                                            <option value="percentage">
+                                                Percentage
+                                            </option>
+                                            <option value="manual">
+                                                Manual
+                                            </option>
                                         </select>
                                     )}
                                 />
@@ -947,7 +1050,8 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {isPercentageType && (
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Percent (%)<span className="text-red-500">*</span>
+                                        Percent (%)
+                                        <span className="text-red-500">*</span>
                                     </label>
                                     <Controller
                                         name="percent"
@@ -968,7 +1072,9 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Income - Different behavior based on income_type */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Income {isPercentageType ? "(Calculated)" : ""}<span className="text-red-500">*</span>
+                                    Income{" "}
+                                    {isPercentageType ? "(Calculated)" : ""}
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="income"
@@ -979,9 +1085,13 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                                             type="number"
                                             step="0.01"
                                             className={`w-full px-3 py-2 border border-gray-300 rounded-lg ${
-                                                isPercentageType ? 'bg-gray-50' : 'focus:ring-2 focus:ring-indigo-500 focus:border-transparent'
+                                                isPercentageType
+                                                    ? "bg-gray-50"
+                                                    : "focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                             }`}
-                                            disabled={submitting || isPercentageType}
+                                            disabled={
+                                                submitting || isPercentageType
+                                            }
                                             readOnly={isPercentageType}
                                         />
                                     )}
@@ -991,48 +1101,66 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Payment Status */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Payment Status<span className="text-red-500">*</span>
+                                    Payment Status
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="payment_status"
                                     control={control}
-                                    rules={{ required: "Payment status is required" }}
+                                    rules={{
+                                        required: "Payment status is required",
+                                    }}
                                     render={({ field }) => (
                                         <select
                                             {...field}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                             disabled={submitting}
                                         >
-                                            <option value="">Select Payment Status</option>
+                                            <option value="">
+                                                Select Payment Status
+                                            </option>
                                             <option value="Paid">Paid</option>
-                                            <option value="Unpaid">Unpaid</option>
-                                            <option value="Pending">Pending</option>
+                                            <option value="Unpaid">
+                                                Unpaid
+                                            </option>
+                                            <option value="Pending">
+                                                Pending
+                                            </option>
                                         </select>
                                     )}
                                 />
                                 {errors.payment_status && (
-                                    <p className="text-red-500 text-xs mt-1">{errors.payment_status.message}</p>
+                                    <p className="text-red-500 text-xs mt-1">
+                                        {errors.payment_status.message}
+                                    </p>
                                 )}
                             </div>
 
                             {/* Payment Method */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Payment Method<span className="text-red-500">*</span>
+                                    Payment Method
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="payment_method"
                                     control={control}
-                                    rules={{ required: "Payment method is required" }}
+                                    rules={{
+                                        required: "Payment method is required",
+                                    }}
                                     render={({ field }) => (
                                         <select
                                             {...field}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                             disabled={submitting}
                                         >
-                                            <option value="">Select Payment Method</option>
+                                            <option value="">
+                                                Select Payment Method
+                                            </option>
                                             <option value="Cash">Cash</option>
-                                            <option value="Phonepay">Phonepay</option>
+                                            <option value="Phonepay">
+                                                Phonepay
+                                            </option>
                                         </select>
                                     )}
                                 />
@@ -1041,7 +1169,8 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                             {/* Citizenship */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Citizenship<span className="text-red-500">*</span>
+                                    Citizenship
+                                    <span className="text-red-500">*</span>
                                 </label>
                                 <Controller
                                     name="citizenship"
@@ -1052,7 +1181,9 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                             disabled={submitting}
                                         >
-                                            <option value="">Select Citizenship</option>
+                                            <option value="">
+                                                Select Citizenship
+                                            </option>
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
                                         </select>
@@ -1081,7 +1212,7 @@ const EditFixedJobForm = ({ visitor, onClose, onUpdate }) => {
                                         Updating...
                                     </>
                                 ) : (
-                                    'Update Details'
+                                    "Update Details"
                                 )}
                             </button>
                         </div>

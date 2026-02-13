@@ -4,7 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Fast Job') }}</title>
+        <title>Fast Job</title>
+<meta property="og:title" content="Fast Job" />
+<meta property="og:description" content="Fast Job - Find your dream job easily" />
+        
         <link rel="icon" href='/images/sait.png'type='image/png'>
 
         <!-- Fonts -->

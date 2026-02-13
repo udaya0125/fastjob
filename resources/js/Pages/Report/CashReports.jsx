@@ -667,7 +667,7 @@ const CashReports = () => {
             <div className="py-4">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-800">
+                        <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">
                             Cash Report Details
                         </h1>
                     </div>
@@ -683,7 +683,7 @@ const CashReports = () => {
                             </p>
                         </div>
                         <p className="text-2xl font-bold text-gray-900 mt-2">
-                            {isFiltered
+                           NPR {isFiltered
                                 ? calculateFilteredTotal.toFixed(2)
                                 : totalCash.toFixed(2)}
                         </p>
@@ -694,14 +694,14 @@ const CashReports = () => {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-600 font-medium">
-                                    {isFiltered
+                                   NPR {isFiltered
                                         ? "Filtered Monthly"
                                         : ` Monthly Cash (${currentMonth})`}
                                 </p>
                             </div>
                         </div>
                         <p className="text-2xl font-bold text-gray-900 mt-1">
-                            {isFiltered
+                           NPR {isFiltered
                                 ? calculateFilteredMonthlyCash.toFixed(2)
                                 : monthlyCash.toFixed(2)}
                         </p>
@@ -712,14 +712,14 @@ const CashReports = () => {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm text-gray-600 font-medium">
-                                    {isFiltered
+                                   NPR {isFiltered
                                         ? "Filtered Yearly"
                                         : ` Yearly Cash (${currentYear})`}
                                 </p>
                             </div>
                         </div>
                         <p className="text-2xl font-bold text-gray-900 mt-1">
-                            {isFiltered
+                           NPR {isFiltered
                                 ? calculateFilteredYearlyCash.toFixed(2)
                                 : yearlyCash.toFixed(2)}
                         </p>

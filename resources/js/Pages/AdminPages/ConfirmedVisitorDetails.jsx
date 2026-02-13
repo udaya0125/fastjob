@@ -1,3 +1,4 @@
+import { X } from 'lucide-react';
 import React, { useState } from 'react';
 
 const ConfirmedVisitorDetails = ({ visitor, onClose, onUpdate }) => {
@@ -51,7 +52,7 @@ const ConfirmedVisitorDetails = ({ visitor, onClose, onUpdate }) => {
                             onClick={onClose}
                             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                         >
-                            ✕
+                            <X />
                         </button>
                     </div>
 

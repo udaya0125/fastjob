@@ -572,6 +572,14 @@ const FixedJobs = () => {
             {
                 Header: "Contact",
                 accessor: "customer_number",
+                Cell: ({ value }) => (
+                    <a
+                        href={`tel:${value}`}
+                        className="text-blue-600 hover:text-blue-800 hover:underline"
+                    >
+                        {value}
+                    </a>
+                ),
             },
             {
                 Header: "Company Name",
@@ -638,7 +646,7 @@ const FixedJobs = () => {
                 <div className="py-4">
                     <div className="flex justify-between items-center mb-6">
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">
+                            <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">
                                 Fixed Jobs - Confirmed Visitors
                             </h1>
                         </div>

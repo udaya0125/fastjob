@@ -5,7 +5,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import AdminWrapper from "@/AdminWrapper/AdminWrapper";
 import AddEmployerForm from "@/AddFormComponents/AddEmployerForm";
 import MyTable from "./MyTable"; // Adjust the import path as needed
-import { MainContextData } from '@/Context/MainContext';
+import { MainContextData } from "@/Context/MainContext";
 import { Head } from "@inertiajs/react";
 
 const EmployerDetails = () => {
@@ -19,7 +19,31 @@ const EmployerDetails = () => {
     const [searchLoading, setSearchLoading] = useState(false);
     const [selectedEmployer, setSelectedEmployer] = useState(null);
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
-    const {showAddForm,setShowAddForm, editingEmployer , setEditingEmployer ,reloadEmployerTrigger ,setReloadEmployerTrigger , handleAddNewEmployee}= useContext(MainContextData);
+    const {
+        showAddForm,
+        setShowAddForm,
+        editingEmployer,
+        setEditingEmployer,
+        reloadEmployerTrigger,
+        setReloadEmployerTrigger,
+        handleAddNewEmployee,
+    } = useContext(MainContextData);
+
+    // Add this effect after your other useEffect hooks
+useEffect(() => {
+    if (showDetailsPopup) {
+        // Prevent scrolling on mount
+        document.body.style.overflow = 'hidden';
+    } else {
+        // Re-enable scrolling on unmount
+        document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup function to ensure scroll is re-enabled when component unmounts
+    return () => {
+        document.body.style.overflow = 'unset';
+    };
+}, [showDetailsPopup]);
 
     // For fetching the employer data
     useEffect(() => {
@@ -219,15 +243,16 @@ const EmployerDetails = () => {
                 {/* Header with Add Button */}
                 <div className="mb-8 flex justify-between items-center">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-800">
+                        <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">
                             Employer Details
                         </h1>
                     </div>
                     <button
                         onClick={handleAddNewEmployee}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
+                        className="px-4 py-2 flex items-center gap-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
                     >
-                        Create
+                        <Plus size={18} />
+                        <span>Create</span>
                     </button>
                 </div>
 
@@ -361,8 +386,18 @@ const EmployerDetails = () => {
                                         <span className="font-semibold">
                                             Contact Number :
                                         </span>{" "}
-                                        {selectedEmployer.contact_number ||
-                                            "N/A"}
+                                        {selectedEmployer.contact_number ? (
+                                            <a
+                                                href={`tel:${selectedEmployer.contact_number}`}
+                                                className="text-indigo-600 hover:underline"
+                                            >
+                                                {
+                                                    selectedEmployer.contact_number
+                                                }
+                                            </a>
+                                        ) : (
+                                            "N/A"
+                                        )}
                                     </p>
                                 </div>
 

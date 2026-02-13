@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -12,7 +15,7 @@
 
 ::-webkit-scrollbar-thumb {
   background: rgba(214, 187, 138, 0.7);
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {

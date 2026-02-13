@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import AddUserForm from "@/AddFormComponents/AddUserForm";
 import MyTable from "./MyTable";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Plus, Trash2 } from "lucide-react";
 import EditUserForm from "@/EditFormComponents/EditUserForm";
 import { Head } from "@inertiajs/react";
 
@@ -169,12 +169,13 @@ const UserManagement = () => {
             <Head title="User Management" />
             <div className="container mx-auto py-4">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-3xl font-bold">User Management</h1>
+                    <h1 className="text-2xl lg:text-3xl font-bold">User Management</h1>
                     <button
                         onClick={() => setShowAddModal(true)}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
+                        className="px-4 py-2 flex items-center gap-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
                     >
-                        Create
+                        <Plus size={18} />
+                        <span>Create</span>
                     </button>
                 </div>
 

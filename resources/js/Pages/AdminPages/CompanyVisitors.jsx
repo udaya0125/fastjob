@@ -27,11 +27,11 @@
 //                 setLoading(true);
 //                 const response = await axios.get(route("ourvisitors.index"));
 //                 setAllVisitor(response.data);
-                
+
 //                 // Separate confirmed visitors from others
 //                 const confirmed = response.data.filter(visitor => visitor.status === 'Confirm');
 //                 const others = response.data.filter(visitor => visitor.status !== 'Confirm');
-                
+
 //                 setConfirmedVisitors(confirmed);
 //                 setOtherVisitors(others);
 //                 setFilteredOtherVisitors(others);
@@ -82,18 +82,18 @@
 //             }
 
 //             setSearchLoading(true);
-            
+
 //             const query = searchQuery.toLowerCase().trim();
 //             const filtered = otherVisitors.filter(visitor => {
 //                 const name = visitor.name?.toLowerCase() || '';
 //                 const companyName = visitor.companyname?.toLowerCase() || '';
-                
+
 //                 return (
 //                     name.includes(query) ||
 //                     companyName.includes(query)
 //                 );
 //             });
-            
+
 //             setFilteredOtherVisitors(filtered);
 //             setSearchLoading(false);
 //         };
@@ -109,7 +109,7 @@
 //     // For delete the visitor
 //     const handleDelete = async (id) => {
 //         if (!window.confirm('Are you sure you want to delete this visitor?')) return;
-        
+
 //         try {
 //             const response = await axios.delete(
 //                 route("ourvisitors.destroy", { id: id })
@@ -171,7 +171,7 @@
 //                     formData.append(key, updatedData[key]);
 //                 }
 //             });
-            
+
 //             const response = await handleUpdate(formData, selectedConfirmedVisitor.id);
 //             setSelectedConfirmedVisitor(response.data);
 //             setReloadTrigger((prev) => !prev);
@@ -309,7 +309,7 @@
 //                             </button>
 //                         )}
 //                     </div>
-                    
+
 //                     {/* Search Info */}
 //                     {/* <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
 //                         <span>
@@ -343,8 +343,8 @@
 //                 {/* Table View */}
 //                 {!loading && filteredOtherVisitors.length > 0 && (
 //                     <div>
-//                         <MyTable 
-//                             columns={columns} 
+//                         <MyTable
+//                             columns={columns}
 //                             data={filteredOtherVisitors}
 //                             tableClassName="border-2 border-gray-200 rounded-lg overflow-hidden"
 //                         />
@@ -402,8 +402,7 @@
 
 //                 {/* Add/Edit Form Modal */}
 //                 {showAddForm && (
-                    
-                       
+
 //                             <AddCompanyVisitorForm
 //                                 editingVisitor={editingVisitor}
 //                                 setEditingVisitor={setEditingVisitor}
@@ -414,7 +413,7 @@
 //                                 }}
 //                                 handleUpdate={handleUpdate}
 //                             />
-                        
+
 //                 )}
 //             </div>
 //         </AdminWrapper>
@@ -423,16 +422,14 @@
 
 // export default CompanyVisitors
 
-
-
-import React, { useState, useEffect, useMemo } from 'react'
-import axios from 'axios'
-import MyTable from './MyTable'
-import AdminWrapper from '@/AdminWrapper/AdminWrapper';
-import { Edit, Search, Trash2, X } from 'lucide-react';
-import EditCompanyVisitorForm from '@/EditFormComponents/EditCompanyVisitorForm';
-import AddCompanyVisitorForm from '@/AddFormComponents/AddCompanyVisitorForm';
-import { Head } from '@inertiajs/react';
+import React, { useState, useEffect, useMemo } from "react";
+import axios from "axios";
+import MyTable from "./MyTable";
+import AdminWrapper from "@/AdminWrapper/AdminWrapper";
+import { Edit, Plus, Search, Trash2, X } from "lucide-react";
+import EditCompanyVisitorForm from "@/EditFormComponents/EditCompanyVisitorForm";
+import AddCompanyVisitorForm from "@/AddFormComponents/AddCompanyVisitorForm";
+import { Head } from "@inertiajs/react";
 
 const CompanyVisitors = () => {
     const [allVisitor, setAllVisitor] = useState([]);
@@ -445,9 +442,10 @@ const CompanyVisitors = () => {
     const [editingVisitor, setEditingVisitor] = useState(null);
     const [showAddForm, setShowAddForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
-    const [selectedConfirmedVisitor, setSelectedConfirmedVisitor] = useState(null);
+    const [selectedConfirmedVisitor, setSelectedConfirmedVisitor] =
+        useState(null);
     const [loading, setLoading] = useState(true);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState("");
     const [searchLoading, setSearchLoading] = useState(false);
 
     // For fetching the visitor data and separating confirmed visitors
@@ -457,11 +455,15 @@ const CompanyVisitors = () => {
                 setLoading(true);
                 const response = await axios.get(route("ourvisitors.index"));
                 setAllVisitor(response.data);
-                
+
                 // Separate confirmed visitors from others
-                const confirmed = response.data.filter(visitor => visitor.status === 'Confirm');
-                const others = response.data.filter(visitor => visitor.status !== 'Confirm');
-                
+                const confirmed = response.data.filter(
+                    (visitor) => visitor.status === "Confirm",
+                );
+                const others = response.data.filter(
+                    (visitor) => visitor.status !== "Confirm",
+                );
+
                 setConfirmedVisitors(confirmed);
                 setOtherVisitors(others);
                 setFilteredOtherVisitors(others);
@@ -476,7 +478,7 @@ const CompanyVisitors = () => {
         const fetchCustomers = async () => {
             try {
                 const response = await axios.get(
-                    route("ourcustomername.indexname")
+                    route("ourcustomername.indexname"),
                 );
                 setAllCustomers(response.data.data || []);
             } catch (error) {
@@ -485,10 +487,10 @@ const CompanyVisitors = () => {
             }
         };
         fetchCustomers();
-         const fetchEmployers = async () => {
+        const fetchEmployers = async () => {
             try {
                 const response = await axios.get(
-                    route("ouremployersdetails.employeeindex")
+                    route("ouremployersdetails.employeeindex"),
                 );
                 setAllEmployers(response.data.data || []);
             } catch (error) {
@@ -512,18 +514,15 @@ const CompanyVisitors = () => {
             }
 
             setSearchLoading(true);
-            
+
             const query = searchQuery.toLowerCase().trim();
-            const filtered = otherVisitors.filter(visitor => {
-                const name = visitor.name?.toLowerCase() || '';
-                const companyName = visitor.companyname?.toLowerCase() || '';
-                
-                return (
-                    name.includes(query) ||
-                    companyName.includes(query)
-                );
+            const filtered = otherVisitors.filter((visitor) => {
+                const name = visitor.name?.toLowerCase() || "";
+                const companyName = visitor.companyname?.toLowerCase() || "";
+
+                return name.includes(query) || companyName.includes(query);
             });
-            
+
             setFilteredOtherVisitors(filtered);
             setSearchLoading(false);
         };
@@ -538,11 +537,12 @@ const CompanyVisitors = () => {
 
     // For delete the visitor
     const handleDelete = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this visitor?')) return;
-        
+        if (!window.confirm("Are you sure you want to delete this visitor?"))
+            return;
+
         try {
             const response = await axios.delete(
-                route("ourvisitors.destroy", { id: id })
+                route("ourvisitors.destroy", { id: id }),
             );
             console.log(response.data);
             setReloadTrigger((prev) => !prev);
@@ -551,7 +551,7 @@ const CompanyVisitors = () => {
             }
         } catch (error) {
             console.log(error);
-            alert('Failed to delete visitor');
+            alert("Failed to delete visitor");
         }
     };
 
@@ -572,7 +572,7 @@ const CompanyVisitors = () => {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
-                }
+                },
             );
             setReloadTrigger((prev) => !prev);
             return response.data;
@@ -596,13 +596,19 @@ const CompanyVisitors = () => {
     const handleUpdateConfirmedVisitor = async (updatedData) => {
         try {
             const formData = new FormData();
-            Object.keys(updatedData).forEach(key => {
-                if (updatedData[key] !== null && updatedData[key] !== undefined) {
+            Object.keys(updatedData).forEach((key) => {
+                if (
+                    updatedData[key] !== null &&
+                    updatedData[key] !== undefined
+                ) {
                     formData.append(key, updatedData[key]);
                 }
             });
-            
-            const response = await handleUpdate(formData, selectedConfirmedVisitor.id);
+
+            const response = await handleUpdate(
+                formData,
+                selectedConfirmedVisitor.id,
+            );
             setSelectedConfirmedVisitor(response.data);
             setReloadTrigger((prev) => !prev);
             return response;
@@ -614,94 +620,109 @@ const CompanyVisitors = () => {
 
     // Clear search
     const handleClearSearch = () => {
-        setSearchQuery('');
+        setSearchQuery("");
     };
 
     // Define columns for main table (other visitors)
-    const columns = useMemo(() => [
-        {
+    const columns = useMemo(
+        () => [
+            {
                 Header: "ID",
                 accessor: (row, i) => i + 1,
                 id: "rowIndex",
                 width: 60,
             },
-        {
-            Header: 'Date',
-            accessor: 'date',
-            Cell: ({ value }) => {
-                if (!value) return '-';
-                const date = new Date(value);
-                return date.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                });
-            }
-        },
-        {
-            Header: 'Name',
-            accessor: 'name',
-        },
-        {
-            Header: 'Contact',
-            accessor: 'customer_number',
-        },
-        {
-            Header: 'Company Name',
-            accessor: 'companyname',
-        },
-        {
-            Header: 'Position',
-            accessor: 'position',
-        },
-        {
-            Header: 'Status',
-            accessor: 'status',
-            Cell: ({ value }) => {
-                const statusColors = {
-                    Pending: 'bg-yellow-100 text-yellow-800',
-                    Confirm: 'bg-green-100 text-green-800',
-                    Training: 'bg-blue-100 text-blue-800',
-                    Rejected: 'bg-red-100 text-red-800',
-                };
-                return (
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[value] || 'bg-gray-100 text-gray-800'}`}>
-                        {value?.charAt(0).toUpperCase() + value?.slice(1)}
-                    </span>
-                );
-            }
-        },
-        {
-            Header: 'Actions',
-            accessor: 'actions',
-            Cell: ({ row }) => (
-                <div className="flex space-x-2">
-                    <button
-                        onClick={() => handleEdit(row.original)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
-                        title="Edit"
+            {
+                Header: "Date",
+                accessor: "date",
+                Cell: ({ value }) => {
+                    if (!value) return "-";
+                    const date = new Date(value);
+                    return date.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                    });
+                },
+            },
+            {
+                Header: "Name",
+                accessor: "name",
+            },
+            {
+                Header: "Contact",
+                accessor: "customer_number",
+                Cell: ({ value }) => (
+                    <a
+                        href={`tel:${value}`}
+                        className="text-blue-600 hover:text-blue-800 hover:underline"
                     >
-                       <Edit size={18} />
-                    </button>
-                    <button
-                        onClick={() => handleDelete(row.original.id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
-                         title="Delete"
-                    >
-                       <Trash2 size={18} />
-                    </button>
-                </div>
-            ),
-        },
-    ], []);
+                        {value}
+                    </a>
+                ),
+            },
+            {
+                Header: "Company Name",
+                accessor: "companyname",
+            },
+            {
+                Header: "Position",
+                accessor: "position",
+            },
+            {
+                Header: "Status",
+                accessor: "status",
+                Cell: ({ value }) => {
+                    const statusColors = {
+                        Pending: "bg-yellow-100 text-yellow-800",
+                        Confirm: "bg-green-100 text-green-800",
+                        Training: "bg-blue-100 text-blue-800",
+                        Rejected: "bg-red-100 text-red-800",
+                    };
+                    return (
+                        <span
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[value] || "bg-gray-100 text-gray-800"}`}
+                        >
+                            {value?.charAt(0).toUpperCase() + value?.slice(1)}
+                        </span>
+                    );
+                },
+            },
+            {
+                Header: "Actions",
+                accessor: "actions",
+                Cell: ({ row }) => (
+                    <div className="flex space-x-2">
+                        <button
+                            onClick={() => handleEdit(row.original)}
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                            title="Edit"
+                        >
+                            <Edit size={18} />
+                        </button>
+                        <button
+                            onClick={() => handleDelete(row.original.id)}
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                            title="Delete"
+                        >
+                            <Trash2 size={18} />
+                        </button>
+                    </div>
+                ),
+            },
+        ],
+        [],
+    );
 
     return (
         <AdminWrapper>
             <Head title="Company Visitors" />
-            <div className='py-4'>
+            <div className="py-4">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-800">Company Visitors</h1>
+                        <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">
+                            Company Visitors
+                        </h1>
                         {/* <div className="text-sm text-gray-500">
                             Total: {allVisitor.length} visitors • Confirmed: {confirmedVisitors.length} • Others: {otherVisitors.length}
                         </div> */}
@@ -710,9 +731,10 @@ const CompanyVisitors = () => {
                         onClick={() => {
                             setShowAddForm(true);
                         }}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
+                        className="px-4 py-2 flex items-center gap-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition duration-200"
                     >
-                        Create
+                        <Plus size={18} />
+                        <span>Create</span>
                     </button>
                 </div>
 
@@ -739,7 +761,7 @@ const CompanyVisitors = () => {
                             </button>
                         )}
                     </div>
-                    
+
                     {/* Search Info */}
                     {/* <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
                         <span>
@@ -773,8 +795,8 @@ const CompanyVisitors = () => {
                 {/* Table View */}
                 {!loading && filteredOtherVisitors.length > 0 && (
                     <div>
-                        <MyTable 
-                            columns={columns} 
+                        <MyTable
+                            columns={columns}
                             data={filteredOtherVisitors}
                             tableClassName="border-2 border-gray-200 rounded-lg overflow-hidden"
                         />
@@ -782,23 +804,28 @@ const CompanyVisitors = () => {
                 )}
 
                 {/* No Search Results State */}
-                {!loading && searchQuery && filteredOtherVisitors.length === 0 && (
-                    <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
-                        <Search size={48} className="mx-auto text-gray-300 mb-4" />
-                        <p className="text-gray-400 text-lg mb-2">
-                            No visitors found for "{searchQuery}"
-                        </p>
-                        <p className="text-gray-500 mb-4">
-                            Try searching with different keywords
-                        </p>
-                        <div className="flex gap-3 justify-center">
-                            <button
-                                onClick={handleClearSearch}
-                                className="text-blue-600 hover:text-blue-700 font-medium"
-                            >
-                                Clear search
-                            </button>
-                            {/* <span className="text-gray-300">|</span>
+                {!loading &&
+                    searchQuery &&
+                    filteredOtherVisitors.length === 0 && (
+                        <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
+                            <Search
+                                size={48}
+                                className="mx-auto text-gray-300 mb-4"
+                            />
+                            <p className="text-gray-400 text-lg mb-2">
+                                No visitors found for "{searchQuery}"
+                            </p>
+                            <p className="text-gray-500 mb-4">
+                                Try searching with different keywords
+                            </p>
+                            <div className="flex gap-3 justify-center">
+                                <button
+                                    onClick={handleClearSearch}
+                                    className="text-blue-600 hover:text-blue-700 font-medium"
+                                >
+                                    Clear search
+                                </button>
+                                {/* <span className="text-gray-300">|</span>
                             <button
                                 onClick={() => {
                                     setShowAddForm(true);
@@ -807,9 +834,9 @@ const CompanyVisitors = () => {
                             >
                                 Add new visitor
                             </button> */}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
 
                 {/* Empty State (when no data at all) */}
                 {!loading && !searchQuery && otherVisitors.length === 0 && (
@@ -852,7 +879,7 @@ const CompanyVisitors = () => {
                 )}
             </div>
         </AdminWrapper>
-    )
-}
+    );
+};
 
-export default CompanyVisitors
+export default CompanyVisitors;

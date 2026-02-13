@@ -4,7 +4,7 @@ import AdminWrapper from "@/AdminWrapper/AdminWrapper";
 import axios from "axios";
 import AddCustomerForm from "@/AddFormComponents/AddCustomerForm";
 import MyTable from "./MyTable";
-import { MainContextData } from '@/Context/MainContext';
+import { MainContextData } from "@/Context/MainContext";
 import { Head } from "@inertiajs/react";
 
 const CustomerDetails = () => {
@@ -18,7 +18,31 @@ const CustomerDetails = () => {
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchLoading, setSearchLoading] = useState(false);
-    const {showForm,setShowForm, editingCustomer, setEditingCustomer, setReloadCustomerTrigger, reloadCustomerTrigger, handleAddNew } = useContext(MainContextData);
+    const {
+        showForm,
+        setShowForm,
+        editingCustomer,
+        setEditingCustomer,
+        setReloadCustomerTrigger,
+        reloadCustomerTrigger,
+        handleAddNew,
+    } = useContext(MainContextData);
+
+    // Add this effect after your other useEffect hooks
+useEffect(() => {
+    if (showDetailsPopup) {
+        // Prevent scrolling on mount
+        document.body.style.overflow = 'hidden';
+    } else {
+        // Re-enable scrolling on unmount
+        document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup function to ensure scroll is re-enabled when component unmounts
+    return () => {
+        document.body.style.overflow = 'unset';
+    };
+}, [showDetailsPopup]);
 
     // For fetching the customer data
     useEffect(() => {
@@ -38,8 +62,6 @@ const CustomerDetails = () => {
 
         fetchCustomer();
     }, [reloadCustomerTrigger]);
-
-
 
     // Search functionality
     useEffect(() => {
@@ -130,10 +152,10 @@ const CustomerDetails = () => {
     const handleClearSearch = () => {
         setSearchQuery("");
     };
-    console.log(showForm)
-    console.log(editingCustomer)
-    console.log(reloadCustomerTrigger)
-    console.log(handleAddNew)
+    console.log(showForm);
+    console.log(editingCustomer);
+    console.log(reloadCustomerTrigger);
+    console.log(handleAddNew);
 
     // Define table columns
     const columns = useMemo(
@@ -221,8 +243,6 @@ const CustomerDetails = () => {
         [],
     );
 
-    
-
     return (
         <AdminWrapper>
             <Head title="Customer Details" />
@@ -230,7 +250,7 @@ const CustomerDetails = () => {
                 {/* Header */}
                 <div className="flex justify-between items-center mb-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-800">
+                        <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">
                             Customer Details
                         </h1>
                     </div>
@@ -238,9 +258,10 @@ const CustomerDetails = () => {
                     {/* Add New Button */}
                     <button
                         onClick={handleAddNew}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
+                        className="px-4 py-2 flex items-center gap-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
                     >
-                        Create
+                        <Plus size={18} />
+                        <span>Create</span>
                     </button>
                 </div>
 
@@ -422,8 +443,18 @@ const CustomerDetails = () => {
                                         <span className="font-semibold">
                                             Contact Number :
                                         </span>{" "}
-                                        {selectedCustomer.contact_number ||
-                                            "N/A"}
+                                        {selectedCustomer.contact_number ? (
+                                            <a
+                                                href={`tel:${selectedCustomer.contact_number}`}
+                                                className="text-indigo-600 hover:underline"
+                                            >
+                                                {
+                                                    selectedCustomer.contact_number
+                                                }
+                                            </a>
+                                        ) : (
+                                            "N/A"
+                                        )}
                                     </p>
                                 </div>
 

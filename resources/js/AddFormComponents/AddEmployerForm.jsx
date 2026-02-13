@@ -15,10 +15,25 @@ const AddEmployerForm = ({
         post: "",
         location: "",
         salary: "",
-        time: "", 
+        time: "",
         contact_number: "",
         experience: "",
     });
+
+    // Add this useEffect to lock body scroll when form mounts
+    useEffect(() => {
+        // Lock body scroll
+        document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.width = "100%";
+
+        // Cleanup function to restore scroll when component unmounts
+        return () => {
+            document.body.style.overflow = "unset";
+            document.body.style.position = "static";
+            document.body.style.width = "auto";
+        };
+    }, []); // Empty dependency array means this runs once on mount
 
     // Use Effect
     useEffect(() => {
@@ -150,7 +165,8 @@ const AddEmployerForm = ({
                         {/* Company Name */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Company Name<span className="text-red-500">*</span>
+                                Company Name
+                                <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -213,7 +229,8 @@ const AddEmployerForm = ({
                         {/* Job Type - Changed from select to text input */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Working Time<span className="text-red-500">*</span>
+                                Working Time
+                                <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -229,7 +246,8 @@ const AddEmployerForm = ({
                         {/* Contact Number */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Contact Number<span className="text-red-500">*</span>
+                                Contact Number
+                                <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"

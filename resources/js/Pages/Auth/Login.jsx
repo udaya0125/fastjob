@@ -132,10 +132,10 @@ export default function Login({ status, canResetPassword }) {
     };
 
     const socialLinks = {
-        facebook: "https://facebook.com",
-        instagram: "https://instagram.com",
-        tiktok: "https://tiktok.com",
-        youtube: "https://youtube.com",
+        facebook: "https://www.facebook.com/saitpokhara",
+        instagram: "https://www.instagram.com/saitsolutionpokhara/",
+        tiktok: "https://www.tiktok.com/@saitsolutionnepal",
+        youtube: "https://www.youtube.com/@saitsolutionnepal",
     };
 
     return (
