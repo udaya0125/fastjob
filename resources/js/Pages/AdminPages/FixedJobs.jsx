@@ -612,6 +612,10 @@ const FixedJobs = () => {
                 },
             },
             {
+                Header: "Citizenship",
+                accessor: "citizenship",
+            },
+            {
                 Header: "Actions",
                 accessor: "actions",
                 Cell: ({ row }) => (
