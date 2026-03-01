@@ -40,7 +40,9 @@ export default function AdminLogin() {
                             <h1 className="text-3xl font-bold text-gray-800 mb-2">
                                 Welcome Back !!
                             </h1>
-                            <p className="text-gray-600">Please login to your account</p>
+                            <p className="text-gray-600">
+                                Please login to your account
+                            </p>
                         </div>
 
                         {/* Form */}
@@ -63,16 +65,24 @@ export default function AdminLogin() {
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Password"
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                     className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl pr-12 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                                     required
                                 />
                                 <button
                                     type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
+                                    onClick={() =>
+                                        setShowPassword(!showPassword)
+                                    }
                                     className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                                 >
-                                    {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                                    {showPassword ? (
+                                        <FaEyeSlash size={20} />
+                                    ) : (
+                                        <FaEye size={20} />
+                                    )}
                                 </button>
                             </div>
 
