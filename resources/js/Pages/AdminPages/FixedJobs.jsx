@@ -376,7 +376,6 @@
 
 // export default FixedJobs;
 
-
 import AdminWrapper from "@/AdminWrapper/AdminWrapper";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import axios from "axios";
@@ -524,13 +523,13 @@ const FixedJobs = () => {
                 formData,
                 selectedConfirmedVisitor.id,
             );
-            
+
             // Clear the selected visitor
             setSelectedConfirmedVisitor(null);
-            
+
             // Trigger table reload
-            setReloadTrigger(prev => !prev);
-            
+            setReloadTrigger((prev) => !prev);
+
             return response;
         } catch (error) {
             console.error("Error updating confirmed visitor", error);
@@ -602,7 +601,8 @@ const FixedJobs = () => {
                         <div className="flex justify-center">
                             <span
                                 className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                    paymentColors[value] || "bg-gray-100 text-gray-800"
+                                    paymentColors[value] ||
+                                    "bg-gray-100 text-gray-800"
                                 }`}
                             >
                                 {value || "-"}
