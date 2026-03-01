@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { X, Eye, EyeOff, Camera } from "lucide-react";
 
-const AddUserForm = ({
-    onSuccess,
-    onCancel,
-}) => {
+const AddUserForm = ({ onSuccess, onCancel }) => {
     const [submitting, setSubmitting] = useState(false);
     const [imagePreview, setImagePreview] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -20,19 +17,19 @@ const AddUserForm = ({
     });
 
     // Add this useEffect to lock body scroll when form mounts
-useEffect(() => {
-    // Lock body scroll
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    
-    // Cleanup function to restore scroll when component unmounts
-    return () => {
-        document.body.style.overflow = 'unset';
-        document.body.style.position = 'static';
-        document.body.style.width = 'auto';
-    };
-}, []); // Empty dependency array means this runs once on mount
+    useEffect(() => {
+        // Lock body scroll
+        document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.width = "100%";
+
+        // Cleanup function to restore scroll when component unmounts
+        return () => {
+            document.body.style.overflow = "unset";
+            document.body.style.position = "static";
+            document.body.style.width = "auto";
+        };
+    }, []); // Empty dependency array means this runs once on mount
 
     // Clean up object URLs to prevent memory leaks
     useEffect(() => {
@@ -46,11 +43,15 @@ useEffect(() => {
     // Handle Create User
     const handleCreate = async (formData) => {
         try {
-            const response = await axios.post(route("ourusers.store"), formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
+            const response = await axios.post(
+                route("ourusers.store"),
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
                 },
-            });
+            );
             return response.data;
         } catch (error) {
             console.log("Error creating user", error);
@@ -61,7 +62,7 @@ useEffect(() => {
     // Handle Submit
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // Validation
         if (!userForm.name.trim()) {
             alert("Name is required");
@@ -96,7 +97,7 @@ useEffect(() => {
         }
 
         const formData = new FormData();
-        
+
         // Append all form data
         for (const key in userForm) {
             if (userForm[key] !== null && userForm[key] !== "") {
@@ -108,28 +109,28 @@ useEffect(() => {
             setSubmitting(true);
 
             await handleCreate(formData);
-            alert('User created successfully!');
-            
+            alert("User created successfully!");
+
             // Call success callback
             if (onSuccess) {
                 onSuccess();
             }
-            
         } catch (error) {
             console.log("Error creating user", error);
-            
-            let errorMessage = 'Error creating user. Please check the form and try again.';
-            
+
+            let errorMessage =
+                "Error creating user. Please check the form and try again.";
+
             if (error.response) {
                 if (error.response.data && error.response.data.message) {
                     errorMessage = error.response.data.message;
                 } else if (error.response.status === 422) {
-                    errorMessage = 'Validation error. Please check your input.';
+                    errorMessage = "Validation error. Please check your input.";
                 } else if (error.response.status === 500) {
-                    errorMessage = 'Server error. Please try again later.';
+                    errorMessage = "Server error. Please try again later.";
                 }
             }
-            
+
             alert(errorMessage);
         } finally {
             setSubmitting(false);
@@ -158,7 +159,7 @@ useEffect(() => {
                 ...prev,
                 image: file,
             }));
-            
+
             const previewUrl = URL.createObjectURL(file);
             setImagePreview(previewUrl);
         }
@@ -183,7 +184,7 @@ useEffect(() => {
         if (imagePreview && imagePreview.startsWith("blob:")) {
             URL.revokeObjectURL(imagePreview);
         }
-        
+
         resetForm();
         if (onCancel) {
             onCancel();
@@ -194,9 +195,7 @@ useEffect(() => {
         <div className="p-6 text-gray-800">
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center space-x-3">
-                    <h2 className="text-2xl font-bold">
-                        Add New User
-                    </h2>
+                    <h2 className="text-2xl font-bold">Add New User</h2>
                 </div>
                 <button
                     onClick={handleCancel}
@@ -223,7 +222,9 @@ useEffect(() => {
                                 <div className="w-full h-full flex items-center justify-center bg-gray-100">
                                     <div className="text-gray-400 text-center">
                                         <Camera className="w-12 h-12 mx-auto mb-2" />
-                                        <span className="text-xs block">Add Photo</span>
+                                        <span className="text-xs block">
+                                            Add Photo
+                                        </span>
                                     </div>
                                 </div>
                             )}
@@ -334,7 +335,8 @@ useEffect(() => {
                     {/* Password Confirmation Field */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Confirm Password<span className="text-red-500">*</span>
+                            Confirm Password
+                            <span className="text-red-500">*</span>
                         </label>
                         <div className="relative">
                             <input
@@ -350,7 +352,9 @@ useEffect(() => {
                             <button
                                 type="button"
                                 className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                onClick={() =>
+                                    setShowConfirmPassword(!showConfirmPassword)
+                                }
                                 disabled={submitting}
                             >
                                 {showConfirmPassword ? (
@@ -412,11 +416,6 @@ useEffect(() => {
 };
 
 export default AddUserForm;
-
-
-
-
-
 
 // import React, { useState, useEffect } from "react";
 // import axios from 'axios';
@@ -498,7 +497,7 @@ export default AddUserForm;
 //     // Handle Submit
 //     const handleSubmit = async (e) => {
 //         e.preventDefault();
-        
+
 //         // Validation
 //         if (!userForm.name.trim()) {
 //             alert("Name is required");
@@ -535,7 +534,7 @@ export default AddUserForm;
 //         }
 
 //         const formData = new FormData();
-        
+
 //         // Append all form data except image if it's empty
 //         for (const key in userForm) {
 //             if (key === 'image') {
@@ -566,18 +565,18 @@ export default AddUserForm;
 //                 await handleCreate(formData);
 //                 alert('User created successfully!');
 //             }
-            
+
 //             // Call success callback - this will reload the table
 //             if (onSuccess) {
 //                 onSuccess();
 //             }
-            
+
 //         } catch (error) {
 //             console.log("Error saving data", error);
-            
+
 //             // Show more detailed error message
 //             let errorMessage = 'Error saving user. Please check the form and try again.';
-            
+
 //             if (error.response) {
 //                 if (error.response.data && error.response.data.message) {
 //                     errorMessage = error.response.data.message;
@@ -585,7 +584,7 @@ export default AddUserForm;
 //                     errorMessage = 'Validation error. Please check your input.';
 //                 }
 //             }
-            
+
 //             alert(errorMessage);
 //         } finally {
 //             setSubmitting(false);
@@ -615,7 +614,7 @@ export default AddUserForm;
 //                 ...prev,
 //                 image: file,
 //             }));
-            
+
 //             const previewUrl = URL.createObjectURL(file);
 //             setImagePreview(previewUrl);
 //         }
@@ -627,7 +626,7 @@ export default AddUserForm;
 //         if (imagePreview && imagePreview.startsWith("blob:")) {
 //             URL.revokeObjectURL(imagePreview);
 //         }
-        
+
 //         if (onCancel) {
 //             onCancel();
 //         }
