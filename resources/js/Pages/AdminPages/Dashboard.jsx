@@ -65,7 +65,7 @@
 //     const [phonePayVisitors, setPhonePayVisitors] = useState([]);
 //     const [loading, setLoading] = useState(true);
 //     const [reloadTrigger, setReloadTrigger] = useState(0);
-    
+
 //     // Date filter states
 //     const [filteredVisitors, setFilteredVisitors] = useState([]);
 //     const [startDate, setStartDate] = useState("");
@@ -114,7 +114,7 @@
 //                 setPendingVisitors(pendingData);
 //                 setCashVisitors(cashData);
 //                 setPhonePayVisitors(phonePayData);
-                
+
 //                 // Initialize filtered data with all data
 //                 setFilteredData({
 //                     allVisitors: allData,
@@ -123,7 +123,7 @@
 //                     cashVisitors: cashData,
 //                     phonePayVisitors: phonePayData,
 //                 });
-                
+
 //                 setFilteredVisitors(allData);
 //             } catch (error) {
 //                 console.error("Fetching error", error);
@@ -140,7 +140,7 @@
 //         const end = new Date();
 //         const start = new Date();
 //         start.setDate(start.getDate() - days);
-        
+
 //         return {
 //             start: start.toISOString().split('T')[0],
 //             end: end.toISOString().split('T')[0]
@@ -152,7 +152,7 @@
 //         const { start, end } = getDateRange(days);
 //         setStartDate(start);
 //         setEndDate(end);
-        
+
 //         // Trigger filter after setting dates
 //         setTimeout(() => {
 //             applyDateFilter();
@@ -178,7 +178,7 @@
 //         const filterDataByDate = (dataArray) => {
 //             return dataArray.filter((visitor) => {
 //                 if (!visitor.date) return false;
-                
+
 //                 const visitorDate = new Date(visitor.date);
 //                 visitorDate.setHours(0, 0, 0, 0);
 
@@ -1031,8 +1031,6 @@
 
 // export default Dashboard;
 
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -1099,7 +1097,7 @@ const Dashboard = () => {
     const [phonePayVisitors, setPhonePayVisitors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [reloadTrigger, setReloadTrigger] = useState(0);
-    
+
     // Date filter states
     const [filteredVisitors, setFilteredVisitors] = useState([]);
     const [startDate, setStartDate] = useState("");
@@ -1148,7 +1146,7 @@ const Dashboard = () => {
                 setPendingVisitors(pendingData);
                 setCashVisitors(cashData);
                 setPhonePayVisitors(phonePayData);
-                
+
                 // Initialize filtered data with all data
                 setFilteredData({
                     allVisitors: allData,
@@ -1157,7 +1155,7 @@ const Dashboard = () => {
                     cashVisitors: cashData,
                     phonePayVisitors: phonePayData,
                 });
-                
+
                 setFilteredVisitors(allData);
             } catch (error) {
                 console.error("Fetching error", error);
@@ -1174,10 +1172,10 @@ const Dashboard = () => {
         const end = new Date();
         const start = new Date();
         start.setDate(start.getDate() - days);
-        
+
         return {
-            start: start.toISOString().split('T')[0],
-            end: end.toISOString().split('T')[0]
+            start: start.toISOString().split("T")[0],
+            end: end.toISOString().split("T")[0],
         };
     };
 
@@ -1186,7 +1184,7 @@ const Dashboard = () => {
         const { start, end } = getDateRange(days);
         setStartDate(start);
         setEndDate(end);
-        
+
         // Trigger filter after setting dates
         setTimeout(() => {
             applyDateFilter();
@@ -1212,7 +1210,7 @@ const Dashboard = () => {
         const filterDataByDate = (dataArray) => {
             return dataArray.filter((visitor) => {
                 if (!visitor.date) return false;
-                
+
                 const visitorDate = new Date(visitor.date);
                 visitorDate.setHours(0, 0, 0, 0);
 
@@ -1325,7 +1323,9 @@ const Dashboard = () => {
                 pending: totalVisitors - confirmedVisitors,
             },
             payments: {
-                total: filteredData.paidVisitors.length + filteredData.pendingVisitors.length,
+                total:
+                    filteredData.paidVisitors.length +
+                    filteredData.pendingVisitors.length,
                 paid: filteredData.paidVisitors.length,
                 pending: filteredData.pendingVisitors.length,
             },
@@ -1374,7 +1374,9 @@ const Dashboard = () => {
             amount: dashboardData.income.phonePay,
             color: "#3B82F6",
             formatted: formatCurrency(dashboardData.income.phonePay),
-            formattedWithSymbol: formatCashWithSymbol(dashboardData.income.phonePay),
+            formattedWithSymbol: formatCashWithSymbol(
+                dashboardData.income.phonePay,
+            ),
         },
         {
             name: "Cash",
@@ -1382,7 +1384,9 @@ const Dashboard = () => {
             amount: dashboardData.income.cash,
             color: "#10B981",
             formatted: formatCash(dashboardData.income.cash),
-            formattedWithSymbol: formatCashWithSymbol(dashboardData.income.cash),
+            formattedWithSymbol: formatCashWithSymbol(
+                dashboardData.income.cash,
+            ),
         },
     ].filter((item) => item.value > 0);
 
@@ -1394,7 +1398,9 @@ const Dashboard = () => {
             amount: dashboardData.income.paid,
             color: "#8B5CF6",
             formatted: formatCurrency(dashboardData.income.paid),
-            formattedWithSymbol: formatCashWithSymbol(dashboardData.income.paid),
+            formattedWithSymbol: formatCashWithSymbol(
+                dashboardData.income.paid,
+            ),
         },
         {
             name: "Pending",
@@ -1402,20 +1408,29 @@ const Dashboard = () => {
             amount: dashboardData.income.pending,
             color: "#F59E0B",
             formatted: formatCurrency(dashboardData.income.pending),
-            formattedWithSymbol: formatCashWithSymbol(dashboardData.income.pending),
+            formattedWithSymbol: formatCashWithSymbol(
+                dashboardData.income.pending,
+            ),
         },
     ].filter((item) => item.value > 0);
 
     // Calculate total values for percentage calculations
-    const totalPaymentMethodValue = paymentMethodData.reduce((sum, item) => sum + item.value, 0);
-    const totalPaymentStatusValue = paymentStatusData.reduce((sum, item) => sum + item.value, 0);
+    const totalPaymentMethodValue = paymentMethodData.reduce(
+        (sum, item) => sum + item.value,
+        0,
+    );
+    const totalPaymentStatusValue = paymentStatusData.reduce(
+        (sum, item) => sum + item.value,
+        0,
+    );
 
     // Custom tooltip for payment method pie chart
     const PaymentMethodTooltip = ({ active, payload }) => {
         if (active && payload && payload.length) {
             const data = payload[0].payload;
             const total = totalPaymentMethodValue;
-            const percentage = total > 0 ? ((data.amount / total) * 100).toFixed(1) : "0.0";
+            const percentage =
+                total > 0 ? ((data.amount / total) * 100).toFixed(1) : "0.0";
 
             return (
                 <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
@@ -1431,7 +1446,7 @@ const Dashboard = () => {
                     <p className="text-gray-600">
                         Amount:{" "}
                         <span className="font-semibold">
-                            {data.name === "Cash" 
+                            {data.name === "Cash"
                                 ? formatCashWithSymbol(data.amount)
                                 : `NPR ${data.formatted}`}
                         </span>
@@ -1451,7 +1466,8 @@ const Dashboard = () => {
         if (active && payload && payload.length) {
             const data = payload[0].payload;
             const total = totalPaymentStatusValue;
-            const percentage = total > 0 ? ((data.amount / total) * 100).toFixed(1) : "0.0";
+            const percentage =
+                total > 0 ? ((data.amount / total) * 100).toFixed(1) : "0.0";
 
             return (
                 <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
@@ -1506,9 +1522,9 @@ const Dashboard = () => {
                                     ? isCash
                                         ? formattedValue
                                         : `${formattedValue}`
-                                    : isCash 
-                                        ? `NPR ${value.toLocaleString()}`
-                                        : value.toLocaleString()}
+                                    : isCash
+                                      ? `NPR ${value.toLocaleString()}`
+                                      : value.toLocaleString()}
                                 {suffix && !isCash && (
                                     <span className="text-lg ml-1">
                                         {suffix}
@@ -1548,7 +1564,7 @@ const Dashboard = () => {
     // Fixed PieChartCard with amounts for payment status
     const PieChartCard = ({ title, data, total, isPaymentMethod = true }) => {
         const hasData = data.length > 0;
-        
+
         const totalValue = data.reduce((sum, item) => sum + item.value, 0);
 
         return (
@@ -1606,10 +1622,15 @@ const Dashboard = () => {
                                                 <span className="text-sm text-gray-600">
                                                     {value} (
                                                     {isPaymentMethod
-                                                        ? dataItem?.name === "Cash"
-                                                            ? formatCashWithSymbol(dataItem?.amount)
+                                                        ? dataItem?.name ===
+                                                          "Cash"
+                                                            ? formatCashWithSymbol(
+                                                                  dataItem?.amount,
+                                                              )
                                                             : `NPR ${dataItem?.formatted}`
-                                                        : formatCashWithSymbol(dataItem?.amount)}
+                                                        : formatCashWithSymbol(
+                                                              dataItem?.amount,
+                                                          )}
                                                     )
                                                 </span>
                                             );
@@ -1621,10 +1642,14 @@ const Dashboard = () => {
                         <div className="w-full lg:w-1/2 mt-6 lg:mt-0 lg:pl-6">
                             <div className="space-y-4">
                                 {data.map((item, index) => {
-                                    const percentage = totalValue > 0 
-                                        ? ((item.value / totalValue) * 100).toFixed(1)
-                                        : "0.0";
-                                    
+                                    const percentage =
+                                        totalValue > 0
+                                            ? (
+                                                  (item.value / totalValue) *
+                                                  100
+                                              ).toFixed(1)
+                                            : "0.0";
+
                                     return (
                                         <div
                                             key={index}
@@ -1637,7 +1662,8 @@ const Dashboard = () => {
                                                 <div
                                                     className="w-4 h-4 rounded-full mr-3 border border-white"
                                                     style={{
-                                                        backgroundColor: item.color,
+                                                        backgroundColor:
+                                                            item.color,
                                                     }}
                                                 ></div>
                                                 <div>
@@ -1646,10 +1672,15 @@ const Dashboard = () => {
                                                     </span>
                                                     <span className="text-xs text-gray-500">
                                                         {isPaymentMethod
-                                                            ? item.name === "Cash"
-                                                                ? formatCashWithSymbol(item.amount)
+                                                            ? item.name ===
+                                                              "Cash"
+                                                                ? formatCashWithSymbol(
+                                                                      item.amount,
+                                                                  )
                                                                 : `NPR ${item.formatted}`
-                                                            : formatCashWithSymbol(item.amount)}
+                                                            : formatCashWithSymbol(
+                                                                  item.amount,
+                                                              )}
                                                     </span>
                                                 </div>
                                             </div>
@@ -1664,7 +1695,10 @@ const Dashboard = () => {
                                 <div className="pt-4 border-t border-gray-200">
                                     <div className="flex justify-between items-center">
                                         <span className="font-semibold text-gray-800">
-                                            Total {isPaymentMethod ? "Paid Income" : "Income"}
+                                            Total{" "}
+                                            {isPaymentMethod
+                                                ? "Paid Income"
+                                                : "Income"}
                                         </span>
                                         <span className="text-xl font-bold text-gray-900">
                                             {formatCashWithSymbol(total)}
@@ -1673,10 +1707,17 @@ const Dashboard = () => {
                                     {!isPaymentMethod && (
                                         <div className="flex justify-between items-center mt-1">
                                             <span className="text-sm text-gray-500">
-                                                Paid: {formatCashWithSymbol(dashboardData.income.paid)}
+                                                Paid:{" "}
+                                                {formatCashWithSymbol(
+                                                    dashboardData.income.paid,
+                                                )}
                                             </span>
                                             <span className="text-sm text-gray-500">
-                                                Pending: {formatCashWithSymbol(dashboardData.income.pending)}
+                                                Pending:{" "}
+                                                {formatCashWithSymbol(
+                                                    dashboardData.income
+                                                        .pending,
+                                                )}
                                             </span>
                                         </div>
                                     )}
@@ -1719,14 +1760,18 @@ const Dashboard = () => {
                                         {/* Quick Filter Buttons */}
                                         <div className="flex flex-wrap gap-3">
                                             <button
-                                                onClick={() => applyPredefinedFilter(7)}
+                                                onClick={() =>
+                                                    applyPredefinedFilter(7)
+                                                }
                                                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                                             >
                                                 <Calendar size={16} />
                                                 Last 7 Days
                                             </button>
                                             <button
-                                                onClick={() => applyPredefinedFilter(30)}
+                                                onClick={() =>
+                                                    applyPredefinedFilter(30)
+                                                }
                                                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                                             >
                                                 <Calendar size={16} />
@@ -1761,10 +1806,14 @@ const Dashboard = () => {
                                                         type="date"
                                                         value={startDate}
                                                         onChange={(e) =>
-                                                            setStartDate(e.target.value)
+                                                            setStartDate(
+                                                                e.target.value,
+                                                            )
                                                         }
                                                         className="w-full sm:w-40 pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500"
-                                                        max={endDate || undefined}
+                                                        max={
+                                                            endDate || undefined
+                                                        }
                                                         placeholder="Start date"
                                                     />
                                                 </div>
@@ -1788,10 +1837,15 @@ const Dashboard = () => {
                                                         type="date"
                                                         value={endDate}
                                                         onChange={(e) =>
-                                                            setEndDate(e.target.value)
+                                                            setEndDate(
+                                                                e.target.value,
+                                                            )
                                                         }
                                                         className="w-full sm:w-40 pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-1 focus:ring-gray-500 focus:border-gray-500"
-                                                        min={startDate || undefined}
+                                                        min={
+                                                            startDate ||
+                                                            undefined
+                                                        }
                                                         placeholder="End date"
                                                     />
                                                 </div>
@@ -1799,7 +1853,9 @@ const Dashboard = () => {
                                                 {/* Apply Button */}
                                                 <button
                                                     onClick={applyDateFilter}
-                                                    disabled={!startDate && !endDate}
+                                                    disabled={
+                                                        !startDate && !endDate
+                                                    }
                                                     className={` flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                                                         startDate || endDate
                                                             ? "bg-gray-800 hover:bg-gray-900 text-white"
@@ -1839,9 +1895,7 @@ const Dashboard = () => {
 
                                             <StatCard
                                                 title="Total Income"
-                                                value={
-                                                   `NPR ${dashboardData.income.total}`
-                                                }
+                                                value={`NPR ${dashboardData.income.total}`}
                                                 icon={DollarSign}
                                                 color="text-green-600"
                                             />
@@ -1873,14 +1927,19 @@ const Dashboard = () => {
                                             <PieChartCard
                                                 title="Income Distribution by Payment Method"
                                                 data={paymentMethodData}
-                                                total={dashboardData.income.paid}
+                                                total={
+                                                    dashboardData.income.paid
+                                                }
                                                 isPaymentMethod={true}
                                             />
 
                                             <PieChartCard
                                                 title="Payment Status Overview"
                                                 data={paymentStatusData}
-                                                total={dashboardData.income.paid + dashboardData.income.pending}
+                                                total={
+                                                    dashboardData.income.paid +
+                                                    dashboardData.income.pending
+                                                }
                                                 isPaymentMethod={false}
                                             />
                                         </div>
@@ -1889,9 +1948,7 @@ const Dashboard = () => {
                                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                                             <StatCard
                                                 title="FonePay Income"
-                                                value={
-                                                   `NPR ${dashboardData.income.phonePay}`
-                                                }
+                                                value={`NPR ${dashboardData.income.phonePay}`}
                                                 icon={Smartphone}
                                                 color="text-blue-600"
                                             />
@@ -1908,9 +1965,7 @@ const Dashboard = () => {
 
                                             <StatCard
                                                 title="Pending Income"
-                                                value={
-                                                   `NPR ${dashboardData.income.pending}`
-                                                }
+                                                value={`NPR ${dashboardData.income.pending}`}
                                                 icon={CreditCard}
                                                 color="text-red-600"
                                             />
