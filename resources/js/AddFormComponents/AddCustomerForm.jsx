@@ -14,21 +14,20 @@ const AddCustomerForm = ({ editingCustomer, onClose, onSuccess }) => {
         interested_in: "",
     });
 
-
     // Add this useEffect to lock body scroll when form mounts
-useEffect(() => {
-    // Lock body scroll
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    
-    // Cleanup function to restore scroll when component unmounts
-    return () => {
-        document.body.style.overflow = 'unset';
-        document.body.style.position = 'static';
-        document.body.style.width = 'auto';
-    };
-}, []); // Empty dependency array means this runs once on mount
+    useEffect(() => {
+        // Lock body scroll
+        document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.width = "100%";
+
+        // Cleanup function to restore scroll when component unmounts
+        return () => {
+            document.body.style.overflow = "unset";
+            document.body.style.position = "static";
+            document.body.style.width = "auto";
+        };
+    }, []); // Empty dependency array means this runs once on mount
 
     // Use Effect for setting form data when editing
     useEffect(() => {
@@ -137,7 +136,8 @@ useEffect(() => {
                         {/* Contact Number */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Contact Number<span className="text-red-500">*</span>
+                                Contact Number
+                                <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -170,7 +170,8 @@ useEffect(() => {
                         {/* Experience */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Experience<span className="text-red-500">*</span>
+                                Experience
+                                <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -189,7 +190,8 @@ useEffect(() => {
                         {/* Permanent Address */}
                         <div className="flex-1">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Permanent Address<span className="text-red-500">*</span>
+                                Permanent Address
+                                <span className="text-red-500">*</span>
                             </label>
                             <textarea
                                 name="permanent_address"
@@ -205,7 +207,8 @@ useEffect(() => {
                         {/* Temporary Address */}
                         <div className="flex-1">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Temporary Address<span className="text-red-500">*</span>
+                                Temporary Address
+                                <span className="text-red-500">*</span>
                             </label>
                             <textarea
                                 name="temporary_address"
