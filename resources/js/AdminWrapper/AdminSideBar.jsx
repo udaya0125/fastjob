@@ -658,7 +658,10 @@ const AdminSideBar = ({
                         style={{ borderColor: "#e5e7eb" }}
                     >
                         {!isCollapsed && (
-                            <Link href="/dashboard" className="text-xl font-bold text-gray-800 whitespace-nowrap">
+                            <Link
+                                href="/dashboard"
+                                className="text-xl font-bold text-gray-800 whitespace-nowrap"
+                            >
                                 Fast Job
                             </Link>
                         )}
