@@ -34,21 +34,20 @@ const EditCompanyVisitorForm = ({
         },
     });
 
-
     // Add this useEffect to lock body scroll when form mounts
-useEffect(() => {
-    // Lock body scroll
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    
-    // Cleanup function to restore scroll when component unmounts
-    return () => {
-        document.body.style.overflow = 'unset';
-        document.body.style.position = 'static';
-        document.body.style.width = 'auto';
-    };
-}, []); // Empty dependency array means this runs once on mount
+    useEffect(() => {
+        // Lock body scroll
+        document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.width = "100%";
+
+        // Cleanup function to restore scroll when component unmounts
+        return () => {
+            document.body.style.overflow = "unset";
+            document.body.style.position = "static";
+            document.body.style.width = "auto";
+        };
+    }, []); // Empty dependency array means this runs once on mount
 
     // Fetch options from APIs
     useEffect(() => {
@@ -152,10 +151,10 @@ useEffect(() => {
 
         try {
             setSubmitting(true);
-            
+
             // Update existing visitor
             await handleUpdate(formData, editingVisitor.id);
-            
+
             onClose();
         } catch (error) {
             console.log("Error updating data", error);
@@ -322,7 +321,8 @@ useEffect(() => {
                         {/* Contact Number Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Contact Number<span className="text-red-500">*</span>
+                                Contact Number
+                                <span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="customer_number"
@@ -355,7 +355,8 @@ useEffect(() => {
                         {/* Company Name Field - React Select */}
                         <div className="relative">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Company Name<span className="text-red-500">*</span>
+                                Company Name
+                                <span className="text-red-500">*</span>
                             </label>
                             <Controller
                                 name="companyname"
