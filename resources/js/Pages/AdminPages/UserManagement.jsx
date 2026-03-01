@@ -14,7 +14,7 @@ const UserManagement = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [loading, setLoading] = useState(true); // Changed initial state to true
-     const imgurl = import.meta.env.VITE_IMAGE_PATH;
+    const imgurl = import.meta.env.VITE_IMAGE_PATH;
 
     // For fetching the user data
     useEffect(() => {
@@ -169,7 +169,9 @@ const UserManagement = () => {
             <Head title="User Management" />
             <div className="container mx-auto py-4">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl lg:text-3xl font-bold">User Management</h1>
+                    <h1 className="text-2xl lg:text-3xl font-bold">
+                        User Management
+                    </h1>
                     <button
                         onClick={() => setShowAddModal(true)}
                         className="px-4 py-2 flex items-center gap-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition"
@@ -194,7 +196,9 @@ const UserManagement = () => {
                             <MyTable columns={columns} data={allUser} />
                         ) : (
                             <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
-                                <p className="text-gray-400 text-lg">No users found</p>
+                                <p className="text-gray-400 text-lg">
+                                    No users found
+                                </p>
                             </div>
                         )}
                     </div>
@@ -249,9 +253,6 @@ const UserManagement = () => {
 };
 
 export default UserManagement;
-
-
-
 
 // import AdminWrapper from "@/AdminWrapper/AdminWrapper";
 // import React, { useState, useEffect, useMemo } from "react";
