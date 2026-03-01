@@ -1,27 +1,27 @@
-import { X } from 'lucide-react';
-import React, { useState } from 'react';
+import { X } from "lucide-react";
+import React, { useState } from "react";
 
 const ConfirmedVisitorDetails = ({ visitor, onClose, onUpdate }) => {
     const [formData, setFormData] = useState({
-        date: visitor.date || '',
-        name: visitor.name || '',
-        customer_number: visitor.customer_number || '',
-        companyname: visitor.companyname || '',
-        company_number: visitor.company_number || '',
-        salary: visitor.salary || '',
-        income_type: visitor.income_type || '',
-        percent: visitor.percent || '',
-        income: visitor.income || '',
-        status: visitor.status || 'Confirm',
-        payment_status: visitor.payment_status || '',
-        payment_method: visitor.payment_method || '',
-        citizenship: visitor.citizenship || '',
+        date: visitor.date || "",
+        name: visitor.name || "",
+        customer_number: visitor.customer_number || "",
+        companyname: visitor.companyname || "",
+        company_number: visitor.company_number || "",
+        salary: visitor.salary || "",
+        income_type: visitor.income_type || "",
+        percent: visitor.percent || "",
+        income: visitor.income || "",
+        status: visitor.status || "Confirm",
+        payment_status: visitor.payment_status || "",
+        payment_method: visitor.payment_method || "",
+        citizenship: visitor.citizenship || "",
     });
     const [submitting, setSubmitting] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -32,9 +32,9 @@ const ConfirmedVisitorDetails = ({ visitor, onClose, onUpdate }) => {
         setSubmitting(true);
         try {
             await onUpdate(formData);
-            alert('Details updated successfully!');
+            alert("Details updated successfully!");
         } catch (error) {
-            alert('Failed to update details');
+            alert("Failed to update details");
         } finally {
             setSubmitting(false);
         }
@@ -168,7 +168,9 @@ const ConfirmedVisitorDetails = ({ visitor, onClose, onUpdate }) => {
                                     <option value="monthly">Monthly</option>
                                     <option value="yearly">Yearly</option>
                                     <option value="hourly">Hourly</option>
-                                    <option value="project">Project Based</option>
+                                    <option value="project">
+                                        Project Based
+                                    </option>
                                 </select>
                             </div>
 
@@ -237,7 +239,9 @@ const ConfirmedVisitorDetails = ({ visitor, onClose, onUpdate }) => {
                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                     disabled={submitting}
                                 >
-                                    <option value="">Select Payment Status</option>
+                                    <option value="">
+                                        Select Payment Status
+                                    </option>
                                     <option value="Paid">Paid</option>
                                     <option value="Unpaid">Unpaid</option>
                                 </select>
@@ -255,7 +259,9 @@ const ConfirmedVisitorDetails = ({ visitor, onClose, onUpdate }) => {
                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                                     disabled={submitting}
                                 >
-                                    <option value="">Select Payment Method</option>
+                                    <option value="">
+                                        Select Payment Method
+                                    </option>
                                     <option value="Cash">Cash</option>
                                     <option value="Phonepay">Phonepay</option>
                                 </select>
@@ -300,7 +306,7 @@ const ConfirmedVisitorDetails = ({ visitor, onClose, onUpdate }) => {
                                         Updating...
                                     </>
                                 ) : (
-                                    'Update Details'
+                                    "Update Details"
                                 )}
                             </button>
                         </div>

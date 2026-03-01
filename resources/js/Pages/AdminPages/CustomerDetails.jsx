@@ -29,20 +29,20 @@ const CustomerDetails = () => {
     } = useContext(MainContextData);
 
     // Add this effect after your other useEffect hooks
-useEffect(() => {
-    if (showDetailsPopup) {
-        // Prevent scrolling on mount
-        document.body.style.overflow = 'hidden';
-    } else {
-        // Re-enable scrolling on unmount
-        document.body.style.overflow = 'unset';
-    }
-    
-    // Cleanup function to ensure scroll is re-enabled when component unmounts
-    return () => {
-        document.body.style.overflow = 'unset';
-    };
-}, [showDetailsPopup]);
+    useEffect(() => {
+        if (showDetailsPopup) {
+            // Prevent scrolling on mount
+            document.body.style.overflow = "hidden";
+        } else {
+            // Re-enable scrolling on unmount
+            document.body.style.overflow = "unset";
+        }
+
+        // Cleanup function to ensure scroll is re-enabled when component unmounts
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [showDetailsPopup]);
 
     // For fetching the customer data
     useEffect(() => {
