@@ -102,7 +102,11 @@ const AdminNavBar = ({ onMenuToggle }) => {
                                                 }}
                                             />
                                         ) : (
-                                            <img src="/images/placeholder.png" alt="Placeholder" className="w-full h-full rounded-full object-cover" />
+                                            <img
+                                                src="/images/placeholder.png"
+                                                alt="Placeholder"
+                                                className="w-full h-full rounded-full object-cover"
+                                            />
                                         )}
                                     </div>
                                     <div className="hidden sm:block text-left">
