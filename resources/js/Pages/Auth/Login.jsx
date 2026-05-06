@@ -311,11 +311,11 @@ export default function Login({ status, canResetPassword }) {
                                     <span>061 591368</span>
                                 </button>
                                 <button
-                                    onClick={() => handleCall("9802835022")}
+                                    onClick={() => handleCall("9801666530")}
                                     className="flex items-center justify-center gap-2 hover:text-blue-200 transition-colors w-full"
                                 >
                                     <span>📱</span>
-                                    <span>9802835022</span>
+                                    <span>980-1666530</span>
                                 </button>
                             </div>
                         </div>
